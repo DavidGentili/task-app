@@ -25,26 +25,28 @@ class TaskClass{
 
 
 const orderProjects = (projects,tasks) => {
-    const ordererProjects = projects.map(project => new ProjectClass(project._id,project.name));
-    ordererProjects.sort((a,b) => (a<b) ? -1 : 1);
+    const orderedProjects = projects.map(project => new ProjectClass(project._id.toString(),project.name));
+    orderedProjects.sort((a,b) => (a.name < b.name) ? -1 : 1);
     tasks.forEach(task => {
         const {_id, title, description,lastChangeDate,state} = task;
         const date = new Date(lastChangeDate);
-        const newTask = new TaskClass(_id,title,description,state,date);
-        const i = ordererProjects.findIndex(project => project.id === task.project);
-        ordererProjects[i].addTask(newTask);
+        const newTask = new TaskClass(_id.toString(),title,description,state,date);
+        const i = orderedProjects.findIndex(project => project.id === task.project);
+        orderedProjects[i].addTask(newTask);
     })
+    return orderedProjects;
 }
 
 
 const board = {
     GET: async (req,res) => {
-        const task = await Task.find({user: user.id});
-        const project = await Project.find({user: user.id});
+        const {user} = req;
+        const task = await Task.find({user});
+        const project = await Project.find({user});
         if(project && task){
-            const ordererProjects = orderProjects(project,task);
+            const orderedProjects = orderProjects(project,task);
             res.statusCode = 200;
-            res.end(JSON.stringify(ordererProjects));
+            res.end(JSON.stringify(orderedProjects));
         } else
             throw {message: 'we have a problem with the board', status: 400};
 
