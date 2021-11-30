@@ -1,5 +1,5 @@
-const Project = require('../../models/Project');
-const Task = require('../../models/Task');
+const Project = require('../models/Project');
+const Task = require('../models/Task');
 
 const getProjectByQuery = async (query,user,res) => {
     const acceptedArgument = ['_id','state']

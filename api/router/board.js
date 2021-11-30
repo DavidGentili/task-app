@@ -1,7 +1,7 @@
 const Task = require('../models/Task');
 const Project = require('../models/Project');
 
-class Project{
+class ProjectClass{
     constructor(id,name){
         this.id = id;
         this.name = name;
@@ -13,7 +13,7 @@ class Project{
     }
 }
 
-class Task{
+class TaskClass{
     constructor(id,title,description,state,date){
         this.id = id;
         this.title = title;
@@ -25,12 +25,12 @@ class Task{
 
 
 const orderProjects = (projects,tasks) => {
-    const ordererProjects = projects.map(project => new Project(project._id,project.name));
+    const ordererProjects = projects.map(project => new ProjectClass(project._id,project.name));
     ordererProjects.sort((a,b) => (a<b) ? -1 : 1);
     tasks.forEach(task => {
         const {_id, title, description,lastChangeDate,state} = task;
         const date = new Date(lastChangeDate);
-        const newTask = new Task(_id,title,description,state,date);
+        const newTask = new TaskClass(_id,title,description,state,date);
         const i = ordererProjects.findIndex(project => project.id === task.project);
         ordererProjects[i].addTask(newTask);
     })

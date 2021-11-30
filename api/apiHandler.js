@@ -2,8 +2,8 @@ const {isAuthenticated} = require('./auth');
 
 const routes = {
     users: require('./router/users/userHandler'),
-    project: require('./router/projects/projects'),
-    task: require('./router/task/task'),
+    project: require('./router/projects'),
+    task: require('./router/task'),
     board: require('./router/board')
 }
 
