@@ -1,0 +1,109 @@
+main{
+    overflow: hidden;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 auto 30px auto;
+    justify-content: center;
+    border-radius: 30px;
+    padding: 30px 20px;
+    box-shadow: 0 5px 10px #00000080;
+    /* animation: cardEntry 1.5s ease-in-out; */
+}
+
+.card .titleCard{
+    margin: 20px 0;
+}
+
+.card .titleCard h2{
+    text-align: center;
+    font-size: 1.2em;
+    color: #056571;
+    font-weight: 600;
+}
+
+.card .bodyCard{
+    display: flex;
+    flex-direction: column;
+}
+
+img{
+    width: 60%;
+    height: auto;
+    margin: 1em 2em;
+}
+
+.card .bodyCard form{
+    display: flex ;
+    flex-direction: column;
+}
+
+.card .bodyCard form input{
+    margin: 10px auto;
+    width: 80%;
+    height: 40px;
+    font-size: .7em;
+    border: solid 1px #056571;
+    border-radius: 5px;
+    outline: none;
+    color: #056571;
+}
+
+.card .bodyCard form button{
+    display: flex;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.6em;
+    background-color: #056571;
+    border: 2px solid #056571;
+    color: #FFFFFF;
+    border-radius: 5px;
+    transition-duration: .3s;
+
+}
+
+.card .bodyCard form button:hover{
+    background: none;
+    color: #056571;
+    transition-duration: .3s;
+}
+
+.loadElements{
+    margin: -1em auto 0 auto;
+    display: flex;
+}
+
+.card .loadItem{
+    background-color: #056571;
+    margin: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+}
+
+
+@keyframes cardEntry {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+
+}
+
+@keyframes loadEffect {
+    from {
+        transform: translateY(0px);
+    } 
+    to {
+        transform: translateY(-25px);
+    } 
+}

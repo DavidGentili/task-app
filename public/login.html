@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2a1ee6f5dc.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link defer rel="stylesheet" href="css/signup-login.css">
+    <title>Login</title>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">
+            <span class="line-left"></span>
+            <div class="box">
+                <span class="line-top"></span>
+                <a href="/">Task-App</a>
+                <span class="line-bottom"></span>
+            </div>
+            <span class="line-rigth"></span>
+        </div>
+
+        <ul class="nav-list">
+            <li><a href="/about">About</a><div class="line"></div></li>
+            <li><a href="/signup">Signup</a><div class="line"></div></li>
+            <li><a href="/login">Login</a><div class="line"></div></li>
+        </ul>
+    </nav>
+
+    <section class="msg-panel" id="msg-panel">
+        
+    </section>
+    
+    <main>
+        <div class="card">
+            <div class="titleCard">
+                <h2>ACCESS</h2>
+            </div>
+            <div class="bodyCard">
+                <form action="" id="signupForm">
+                    <input type="email" name="email" placeholder="email">
+                    <input type="password" name="password" placeholder="password">
+                    <button id="buttonLogin" type="button">LOGIN</button>
+                    <div class="loadElements  hidden" id="loadElements">
+                        <div class="loadItem"></div>
+                        <div class="loadItem"></div>
+                        <div class="loadItem"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <img src="img/login.png" alt="Login">
+
+    </main>
+
+    <script src="js/internMessage.js" type="module"></script>
+    <script src="/js/login.js" type="module" ></script>
+
+
+</body>
+</html>

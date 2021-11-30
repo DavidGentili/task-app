@@ -1,0 +1,62 @@
+/* 
+COLORS:
+Onix - #414141
+Honeydew - #CCDFCB
+Bittersweet - #FF6A5C
+Ming - #056571 
+*/
+
+main .mainText{
+    color: #056571;
+}
+
+main .mainText h3{
+    margin: 0.3em;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+main .mainText h4{
+    margin: 0.3em;
+    font-weight: 400;
+    font-size: 1em;
+}
+
+main .mainText .panelButton{
+    display: flex;
+}
+
+main .mainText .panelButton a{
+    text-decoration: none;
+    font-size: 0.8em;
+    font-weight: 600;
+    padding: 8px 15px;
+    margin: 1.5em 0.3em;
+    border-radius: 3px;
+}
+
+main .buttonSignup{
+    background-color: #056571;
+    border: 2px solid #056571;
+    color: #FFFFFF;
+    transition-duration: .3s;    
+}
+
+main .buttonLogin{
+    background-color: #FF6A5C;
+    border: 2px solid #FF6A5C;
+    color: #FFFFFF;
+    transition-duration: .3s;    
+}
+
+main .buttonSignup:hover{
+    background: none;
+    color: #056571;
+    transition-duration: .3s;
+}
+
+main .buttonLogin:hover{
+    background: none;
+    color: #FF6A5C;
+    transition-duration: .3s;
+}

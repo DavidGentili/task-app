@@ -1,0 +1,127 @@
+/* 
+COLORS:
+Onix - #414141
+Honeydew - #CCDFCB
+Bittersweet - #FF6A5C
+Ming - #056571 
+*/
+
+nav{
+    position: absolute;
+    top: 0;
+    left: 0;;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10vw;
+    width: 100%;
+}
+
+nav .brand{
+    display: flex;
+    overflow: hidden;
+}
+
+nav .brand .box{
+    display: flex;
+    flex-direction: column;
+}
+
+nav .line-rigth, 
+nav .line-left{
+    display: flex;
+    align-items: stretch;
+    background-color: #FF6A5C;
+    width: 2px;
+    transition-duration: .3s;
+}
+
+nav .line-top,
+nav .line-bottom{
+    display: flex;
+    background-color: #FF6A5C;
+    width: 100%;
+    height: 2px;
+    transition-duration: .3s;
+}
+
+nav .line-left{
+    transform: translateY(-100%);
+}
+
+nav .line-bottom{
+    transform: translateX(-102%);
+}
+
+nav .line-rigth{
+    transform: translateY(100%);
+}
+
+nav .line-top{
+    transform: translateX(102%);
+}
+
+nav .brand a{
+    color: #056571;
+    margin: 0;
+    padding: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition-duration: 0.3;
+}
+
+nav .brand:hover a{
+    color: #FF6A5C;
+    transition-duration: 0.6;
+    transition-timing-function: ease-in-out;
+}
+
+nav .brand:hover .line-left,
+nav .brand:hover .line-rigth,
+nav .brand:hover .line-top,
+nav .brand:hover .line-bottom{
+    transition-duration: .6s;
+    transition-timing-function: ease-in-out;
+    transform: translateY(0);
+    transform: translateX(0);
+}
+
+nav ul{
+    display: flex;
+}
+
+nav ul li{
+    list-style-type: none;
+    margin: 5px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+nav ul li a{
+    text-decoration: none;
+    padding: 3px;
+    color: #056571;
+    font-weight: 600;
+    font-size: 0.8em;
+    transition-duration: .3s;
+}
+
+nav ul li .line{
+    height: 2px;
+    background-color: #FF6A5C;
+    width: 100%;
+    border-radius: 1px;
+    transform: scaleX(0);
+    transition-duration: .3s;
+}
+
+nav ul li:hover a{
+    color: #FF6A5C;
+    transition-duration: .3s;
+}
+
+nav ul li:hover .line{
+    transform: scaleX(1);
+    transition-duration: .3s;
+}
