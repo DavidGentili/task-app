@@ -2,37 +2,14 @@ import {getTasks, noTasks} from './task.js';
 import { getProjects, renderProjects, noProject} from './project.js';
 import {getUser , renderUser} from './user.js';
 
-const projects = [];
-const tasks = [];
+const projectBoard = [];
 let user;
-
-class Project{
-    constructor(id,name){
-        this.id = id;
-        this.name = name;
-        this.tasks = [];
-    };
-
-    addTask(task){
-        this.tasks.push(task);
-    }
-}
-
-class Task{
-    constructor(id,title,description,state,date){
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.state = state;
-        this.date = date;
-    }
-}
 
 
 const startWindow = async () => {
     user = await getUser();
     renderUser(user);
-    await getProjects(projects);
+    
     if(projects.length != 0){
         renderProjects(projects);
         await getTasks(tasks);
@@ -46,10 +23,9 @@ const startWindow = async () => {
     }
 }
 
-const renderTaskByProject = (projects,tasks) => {
-    const ordererProjects = orderByProjects(projects,tasks);
+const renderTaskByProject = () => {
     const main = document.querySelector('main');
-    ordererProjects.forEach( project => {
+    orderedProjects.forEach( project => {
         main.appendChild(createObjectProject(project));
     })
 }
@@ -88,20 +64,6 @@ const createObjectTask = (task) => {
     return div;   
 }
 
-//Retorna instancias de la clase Project con sus respectivas Task, en caso de no tener task, se lo elimina de la lista
-const orderByProjects = (projects,tasks) => {
-    const ordererProjects = projects.map(project => new Project(project._id,project.name));
-    ordererProjects.sort((a,b) => (a<b)? -1 : 1);
-    tasks.forEach(task => {
-        const {_id,title,description,lastChangeDate,state} = task
-        const date = new Date(lastChangeDate);
-        const newTask = new Task(_id,title,description,state,date);
-        const i = ordererProjects.findIndex(project => project.id === task.project);
-        ordererProjects[i].addTask(newTask);
-    })
-    return ordererProjects.filter(project => project.tasks.length !== 0)
-}
-
 const eventShowTask = (e) => {
     e.preventDefault();
     const target = e.target;
@@ -130,5 +92,28 @@ const eventHiddenTask = (e) => {
     target.addEventListener('click',eventShowTask);
 }
 
+const getProjectBoard = async () => {
+    const url = 'http://localhost:8080/api/board';
+    const authentication = localStorage.getItem('userToken');
+    const res = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            "authentication" : authentication,
+            "Content-Type" : "application/json"
+        }
+    });
+    const data = await res.json();
+    while(projectBoard.length != 0){
+        projectBoard.pop();
+    }
+    data.forEach(project => {
+        if(project.state === 'active' && project.tasks.length > 0){
+            projectBoard.push(project);
+        }
+    })
+}
 
-startWindow();
+
+//startWindow();
+getProjectBoard();

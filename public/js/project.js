@@ -22,7 +22,7 @@ const renderProjects = (data) => {
     const aside = document.getElementById('menu-board');
     data.forEach(project => {
         const a = document.createElement('a');
-        a.href = `/project/${project._id}`;
+        a.href = `/project/${project.id}`;
         a.textContent = project.name;
         aside.appendChild(a);
     })
