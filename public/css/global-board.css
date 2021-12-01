@@ -24,6 +24,7 @@ nav button{
 nav button:hover{
     background-color: #F4F4F4;
     transition-duration: .3s;
+    cursor: pointer;
 }
 
 nav a{
@@ -43,13 +44,12 @@ aside{
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     width: 20vw;
     height: 100vh;
     padding: 5vh 30px;
-    /* background-color: #F4F4F4; */
     background-color: #FFFFFF;
     box-shadow: 3px 0 10px #00000020;
     transform: translateX(-100%);
@@ -67,7 +67,7 @@ aside > button {
     transition-duration: .3s;
 }
 
-aside button:hover{
+aside > button:hover{
     background: none;
     color: #FF6A5C;
     transition-duration: .3s;
@@ -75,7 +75,7 @@ aside button:hover{
 
 aside .aside-menu{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 aside .aside-menu button{
@@ -90,6 +90,19 @@ aside .aside-menu button{
 aside .aside-menu button:hover{
     color: #FF6A5C;
     transition-duration: .3s;
+    cursor: pointer;
+}
+
+aside .aside-menu #buttonAddNewProject{
+    font-weight: 400;
+    color: #FF6A5C;
+    font-size: .6em;
+    padding: 10px 5px;
+}
+
+aside .aside-menu #buttonAddNewProject:hover{
+    background-color: #F4F4F480;
+    cursor: pointer;
 }
 
 aside a{
@@ -102,7 +115,7 @@ aside a{
 aside a:hover{
     color: #FF6A5C;
     transition-duration: .3s;
-    background-color: #FFFFFF30;
+    background-color: #F4F4F460;
 }
 
 aside img {
@@ -156,6 +169,7 @@ main{
 .project .task{
     width: 100%;
     border-bottom: 1px solid #FF6A5C60;
+    padding: 5px 5px;
 }
 
 

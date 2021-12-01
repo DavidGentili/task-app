@@ -1,34 +1,36 @@
-const generateSuccessModal = (message,link) => {
-    const classIcon = 'fas fa-check';
-    generateModal({
-        icon: classIcon,
-        link,
-        text: message
-    })
-}
-
-const generateModal = (props) => {
+const generateModal = () => {
     const modal = document.createElement('section');
     const card = document.createElement('div');
-    const icon = document.createElement('i');
-    const p = document.createElement('p');
-    const a = document.createElement('a');
-
+    const headerCard = document.createElement('div');
+    const bodyCard = document.createElement('div');
+    const button = document.createElement('button');
+    
     modal.className = 'modal-window';
+    modal.id = 'modal-window'
     card.className = 'cardModal';
-    icon.className = props.icon;
-    p.textContent = props.text;
-    a.href = props.link;
-    a.textContent = 'Continue';
+    card.id = 'cardModal';
+    headerCard.className = 'headerCard';
+    bodyCard.className ='bodyCard';
+    headerCard.id = 'headerCard';
+    bodyCard.id ='bodyCard';
+    button.textContent = 'X';
+    button.addEventListener('click',removeModal);
 
     const body = document.querySelector('body');
     body.appendChild(modal);
     modal.appendChild(card);
-    card.appendChild(icon);
-    card.appendChild(p);
-    card.appendChild(a);
+    card.appendChild(headerCard);
+    card.appendChild(bodyCard);
+    headerCard.appendChild(button);
+
+}
+
+const removeModal = () => {
+    document.getElementById('modal-window').remove();
+    document.getElementById('cardModal').remove();
 }
 
 export {
-    generateSuccessModal
+    generateModal,
+    removeModal
 }

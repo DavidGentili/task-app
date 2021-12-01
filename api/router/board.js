@@ -24,6 +24,24 @@ class TaskClass{
     }
 }
 
+const getQueryTask = (req) => {
+    const {user} = req;
+    let queryTask = {user};
+    const {query} = req;
+    if(query.taskState)
+        queryTask.state = query.taskState;
+    return queryTask;
+}
+
+const getQueryProject = (req) => {
+    const {user} = req;
+    let queryProject = {user};
+    const {query} = req;
+    if(query.projectState)
+        queryProject.state = query.projectState;
+    return queryProject;
+}
+
 
 const orderProjects = (projects,tasks) => {
     const orderedProjects = projects.map(project => new ProjectClass(project._id.toString(),project.name,project.state));
@@ -42,8 +60,10 @@ const orderProjects = (projects,tasks) => {
 const board = {
     GET: async (req,res) => {
         const {user} = req;
-        const task = await Task.find({user});
-        const project = await Project.find({user});
+        const queryTask = getQueryTask(req);
+        const queryProject = getQueryProject(req);
+        const task = await Task.find(queryTask);
+        const project = await Project.find(queryProject);
         if(project && task){
             const orderedProjects = orderProjects(project,task);
             res.statusCode = 200;

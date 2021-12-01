@@ -1,5 +1,5 @@
 import {getTasks, noTasks} from './task.js';
-import { getProjects, renderProjects, noProject} from './project.js';
+import {renderProjects, noProject} from './project.js';
 import {getUser , renderUser} from './user.js';
 
 const projectBoard = [];
@@ -10,7 +10,6 @@ const startWindow = async () => {
     user = await getUser();
     renderUser(user);
     await getProjectBoard();
-    console.log(projectBoard);
     if(projectBoard.length > 0){
         renderProjects(projectBoard);
         renderProjectBoard();
@@ -91,7 +90,7 @@ const eventHiddenTask = (e) => {
 }
 
 const getProjectBoard = async () => {
-    const url = 'http://localhost:8080/api/board';
+    const url = 'http://localhost:8080/api/board?taskState=pending&projectState=active';
     const authentication = localStorage.getItem('userToken');
     const res = await fetch(url, {
         method: 'GET',
