@@ -3,7 +3,6 @@ import { generateModal, removeModal } from "./modal-window.js";
 const getProjects = async () => {
     const url = 'http://localhost:8080/api/project?state=active';
     const authentication = localStorage.getItem('userToken');
-    const aside = document.getElementById('menu-board');
     try{
         const res = await fetch(url, {
             method: 'GET',
@@ -14,7 +13,15 @@ const getProjects = async () => {
             }
         })
         const data = await res.json();
-        return data;
+        const projects = data.map(project => {
+            return {
+                id: project._id,
+                name: project.name,
+                state: project.state
+            };
+        })
+        projects.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1 );
+        return projects;
     }catch(e){
         return [];
     }
@@ -23,13 +30,16 @@ const getProjects = async () => {
 const renderProjects = (data) => {
     const aside = document.getElementById('menu-board');
     const menu = document.getElementById('aside-menu');
-
-    const button = document.createElement('button');
-    button.textContent = '+ add new project';
-    button.id = 'buttonAddNewProject';
-    button.addEventListener('click',eventNewProject);
-
-    menu.insertBefore(button,menu.firstChild);
+    let ant
+    let act = menu.nextSibling;
+    while(act){
+        ant = act;
+        act = act.nextSibling;
+        ant.remove();
+    }
+    if(!document.getElementById('buttonAddNewProject')){
+        menu.insertBefore(createAButtonNewProjects(),menu.firstChild);
+    }
 
     data.forEach(project => {
         const a = document.createElement('a');
@@ -37,12 +47,6 @@ const renderProjects = (data) => {
         a.textContent = project.name;
         aside.appendChild(a);
     })
-}
-
-const refreshProject = (data,projects) => {
-    while(projects.length)
-        projects.pop();
-    data.forEach(elem => projects.push(elem));
 }
 
 const noProject = () => {
@@ -108,6 +112,8 @@ const bodyNewProject = (body) => {
     form.appendChild(button);
     body.appendChild(form);
 
+    input.focus();
+
 }
 
 const eventNewProject = (e) => {
@@ -122,9 +128,16 @@ const eventNewProject = (e) => {
     bodyNewProject(body);
 }
 
+const createAButtonNewProjects = () => {
+    const button = document.createElement('button');
+    button.textContent = '+ add new project';
+    button.id = 'buttonAddNewProject';
+    button.addEventListener('click',eventNewProject);
+    return button;
+}
+
 export{
     getProjects,
     renderProjects,
-    refreshProject,
     noProject
 }

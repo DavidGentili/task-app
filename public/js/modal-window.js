@@ -27,7 +27,6 @@ const generateModal = () => {
 
 const removeModal = () => {
     document.getElementById('modal-window').remove();
-    document.getElementById('cardModal').remove();
 }
 
 export {

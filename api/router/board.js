@@ -45,7 +45,7 @@ const getQueryProject = (req) => {
 
 const orderProjects = (projects,tasks) => {
     const orderedProjects = projects.map(project => new ProjectClass(project._id.toString(),project.name,project.state));
-    orderedProjects.sort((a,b) => (a.name < b.name) ? -1 : 1);
+    orderedProjects.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1);
     tasks.forEach(task => {
         const {_id, title, description,lastChangeDate,state} = task;
         const date = new Date(lastChangeDate);

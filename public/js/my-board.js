@@ -1,5 +1,5 @@
-import {getTasks, noTasks} from './task.js';
-import {renderProjects, noProject} from './project.js';
+import {noTasks} from './task.js';
+import { renderProjects, noProject} from './project.js';
 import {getUser , renderUser} from './user.js';
 
 const projectBoard = [];
@@ -25,6 +25,12 @@ const renderProjectBoard = () => {
         if(project.tasks.length > 0)
             main.appendChild(createObjectProject(project));
     })
+}
+
+const cleanProjectBoard = () => {
+    const projects = document.getElementsByClassName('project');
+    while(projects.length)
+        projects[0].remove();
 }
 
 const createObjectProject = (project) => {

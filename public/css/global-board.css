@@ -1,7 +1,7 @@
 nav{
-    position: absolute;
+    /* position: absolute;
     top: 0;
-    left: 0;
+    left: 0; */
     width: 100%;
     padding: 10px 5vw;
     display: flex;
@@ -15,7 +15,7 @@ nav button{
     color: #414141;
     padding: 10px 14px;
     border-radius: 100px;
-    background-color: #F4F4F470;
+    background-color: #F4F4F440;
     border: none;
     transition-duration: .3s;
 
@@ -132,7 +132,7 @@ aside p{
 }
 
 main{
-    padding-top: 10vh;
+    padding-top: 0;
     flex-direction: column;
     justify-content:baseline;
     align-items: baseline;
