@@ -1,6 +1,6 @@
-import {noTasks} from './task.js';
 import { renderProjects, noProject} from './project.js';
 import {getUser , renderUser} from './user.js';
+import { addNewMessage } from './messages.js';
 
 const projectBoard = [];
 let user;
@@ -10,12 +10,12 @@ const startWindow = async () => {
     user = await getUser();
     renderUser(user);
     await getProjectBoard();
+    console.log(projectBoard);
     if(projectBoard.length > 0){
         renderProjects(projectBoard);
         renderProjectBoard();
     } else {
         noProject();
-        noTasks();
     }
 }
 
@@ -38,6 +38,7 @@ const createObjectProject = (project) => {
     const title = document.createElement('div');
     const i = document.createElement('i');
     const h4 = document.createElement('h4');
+    const button = document.createElement('button');
     const taskArea = document.createElement('div');
 
     elemtProject.className = 'project';
@@ -46,6 +47,8 @@ const createObjectProject = (project) => {
     i.addEventListener('click',eventHiddenTask);
     h4.textContent = project.name;
     taskArea.className = 'taskArea';
+    button.textContent = '+';
+    button.addEventListener('click', prepareEventNewTask(project.id));
 
     project.tasks.forEach(task => {
         taskArea.appendChild(createObjectTask(task))
@@ -54,16 +57,17 @@ const createObjectProject = (project) => {
     elemtProject.appendChild(title);
     title.appendChild(i);
     title.appendChild(h4);
+    title.appendChild(button);
     elemtProject.appendChild(taskArea);
     return elemtProject;
 }
 
 const createObjectTask = (task) => {
     const div = document.createElement('div');
-    const p = document.createElement('p');
+    const title = document.createElement('input');
     div.className = 'task';
-    p.textContent = task.title;
-    div.appendChild(p);
+    title.value = task.title;
+    div.appendChild(title);
     return div;   
 }
 
@@ -117,6 +121,59 @@ const refreshProjectBoard = (data) => {
     data.forEach(project => {
         projectBoard.push(project);
     })
+}
+
+const postNewTask = (project,title,input) => {
+    const data = {project, title};
+    const url = 'http://localhost:8080/api/task';
+    fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            "authentication" : localStorage.getItem('userToken'),
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(data)
+    }).then(function(res){
+        console.log(res);
+        if(res.status === 201){
+            //prepareEventNewTask(project)();
+        } else {
+            input.parentNode.remove();
+            addNewMessage('we can´t create the new task', 'error');
+        }
+    })
+    .catch(function(e){
+        console.error(e)
+        input.parentNode.remove();
+        addNewMessage('we can´t create the new task', 'error');
+    })
+}
+
+const preparePostNewTask = (idProject) => {
+    return  function(e){
+        e.preventDefault()
+        const value = e.target.value.trim();
+        if(value.length > 0){
+            postNewTask(idProject,value,e.target);
+        } else{
+            e.target.parentNode.remove();
+        }
+    }
+}
+
+
+
+const prepareEventNewTask = (idProject) => {
+    return function(e){
+        e.preventDefault();
+        const task = createObjectTask({title:''});
+        const taskArea = e.target.parentNode.nextSibling;
+        const input = task.childNodes[0]; 
+        taskArea.appendChild(task)
+        input.focus();
+        input.addEventListener('focusout', preparePostNewTask(idProject));
+    }
 }
 
 startWindow();

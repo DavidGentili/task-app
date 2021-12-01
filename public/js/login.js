@@ -57,3 +57,4 @@ const eventLogin = () => {
 
 
 document.getElementById('buttonLogin').addEventListener('click', eventLogin);
+document.getElementsByName('email')[0].focus();

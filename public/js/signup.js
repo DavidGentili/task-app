@@ -1,5 +1,4 @@
 import {addNewMessage,cleanMsgPanel, addInternalMessage} from './messages.js';
-import { generateSuccessModal } from './modal-window.js';
 import { hiddenButton,activeButton } from './loadEffectButton.js';
 
 const getData = () => {
@@ -67,4 +66,5 @@ const eventSignup = (e) => {
     }
 }
 document.getElementById('buttonSignup').addEventListener("click",eventSignup);
+document.getElementsByName('name')[0].focus();
 

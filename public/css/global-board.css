@@ -148,6 +148,7 @@ main{
 .project .title{
     display: flex;
     align-items: center;
+    align-content: center;
     border-bottom: 2px solid #FF6A5C80;
 }
 
@@ -161,6 +162,27 @@ main{
     font-size: 0.6em;
 }
 
+.project .title button{
+    margin: auto 20px auto auto;
+    background: none;
+    border: none;
+    color: #FF6A5C;
+    font-size: .9em;
+    opacity: 0;
+    transition-duration: .3s;
+}
+
+.project:hover .title button{
+    opacity: .7;
+    transition-duration: .3s;
+}
+
+.project .title button:hover{
+    opacity: 1;
+    cursor: pointer;
+    transition-duration: .3s;
+}
+
 .project .taskArea{
     margin-left: 30px;
     font-size: 1em;
@@ -172,4 +194,16 @@ main{
     padding: 5px 5px;
 }
 
+.project .task input{
+    display: flex;
+    font-size: .7em;
+    min-width: 30%;
+    max-width: 50%;
+    background: none;
+    border: none;
+    outline: none;
+}
 
+.project .task input:focus{
+    border: 1px solid #414141;
+}
