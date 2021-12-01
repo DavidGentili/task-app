@@ -9,24 +9,22 @@ let user;
 const startWindow = async () => {
     user = await getUser();
     renderUser(user);
-    
-    if(projects.length != 0){
-        renderProjects(projects);
-        await getTasks(tasks);
-        if(tasks)
-            renderTaskByProject(projects,tasks);
-        else 
-            noTasks();
-    } else{
+    await getProjectBoard();
+    console.log(projectBoard);
+    if(projectBoard.length > 0){
+        renderProjects(projectBoard);
+        renderProjectBoard();
+    } else {
         noProject();
         noTasks();
     }
 }
 
-const renderTaskByProject = () => {
+const renderProjectBoard = () => {
     const main = document.querySelector('main');
-    orderedProjects.forEach( project => {
-        main.appendChild(createObjectProject(project));
+    projectBoard.forEach( project => {
+        if(project.tasks.length > 0)
+            main.appendChild(createObjectProject(project));
     })
 }
 
@@ -104,16 +102,16 @@ const getProjectBoard = async () => {
         }
     });
     const data = await res.json();
+    refreshProjectBoard(data);
+}
+
+const refreshProjectBoard = (data) => {
     while(projectBoard.length != 0){
         projectBoard.pop();
     }
     data.forEach(project => {
-        if(project.state === 'active' && project.tasks.length > 0){
-            projectBoard.push(project);
-        }
+        projectBoard.push(project);
     })
 }
 
-
-//startWindow();
-getProjectBoard();
+startWindow();
