@@ -44,6 +44,7 @@ const projectsHandler = {
         const {user} = req;
         const newProject = new Project({name,user})
         await newProject.save();
+        req.data.id = newProject._id;
         res.statusCode = 201; 
         res.end(JSON.stringify(req.data));
     },

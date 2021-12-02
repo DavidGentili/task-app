@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const TaskSchema = new Schema({
     title: {type: String, required: true},
     description: {type: String},
-    state: {type: String, required: true, default: 'pending'},
+    state: {type: String, required: true, default: 'pending'}, //pending, finished, in-progress
     project: {type: String, required: true},
     user: {type: String, required: true},
     startDate: {type: Date, default: Date.now()},

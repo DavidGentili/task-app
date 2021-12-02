@@ -131,79 +131,83 @@ aside p{
     margin: 20px auto;
 }
 
-main{
-    padding-top: 0;
-    flex-direction: column;
-    justify-content:baseline;
-    align-items: baseline;
+#panel-task{
+    background-color: #F4F4F4;
+    width: 40vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 4;
 }
 
-.project{
+#panel-task .panel-menu{
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
     width: 100%;
-    margin: 20px 0 ;
 }
 
-.project .title{
-    display: flex;
-    align-items: center;
-    align-content: center;
-    border-bottom: 2px solid #FF6A5C80;
-}
-
-.project .title h4{
-    margin: 10px;
-    font-weight: 500;
-    font-size: 1em;
-}
-
-.project .title i{
-    font-size: 0.6em;
-}
-
-.project .title button{
-    margin: auto 20px auto auto;
+#panel-task .panel-menu button{
     background: none;
     border: none;
-    color: #FF6A5C;
-    font-size: .9em;
-    opacity: 0;
-    transition-duration: .3s;
-}
-
-.project:hover .title button{
-    opacity: .7;
-    transition-duration: .3s;
-}
-
-.project .title button:hover{
-    opacity: 1;
-    cursor: pointer;
-    transition-duration: .3s;
-}
-
-.project .taskArea{
-    margin-left: 30px;
-    font-size: 1em;
-}
-
-.project .task{
-    width: 100%;
-    border-bottom: 1px solid #FF6A5C60;
-    padding: 5px 5px;
-}
-
-.project .task input{
-    display: flex;
+    font-weight: 600;
     font-size: .7em;
-    min-width: 30%;
-    max-width: 50%;
-    background: none;
-    border: none;
-    outline: none;
+    color: #414141;
+    margin: 40px 50px;
 }
 
-.project .task input:focus{
-    border: 1px solid #414141;
+#panel-task{
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition-duration: .7s;
+}
+
+#panel-task > input{
+    width: 70%;
+    margin: 20px auto 50px auto;
+    padding: 3px;
+    font-size:  .9em;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #414141;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#panel-task > textarea{
+    min-width: 70%;
+    max-width: 70%;
+    min-height: 200px;
+    max-height: 300px;
+    margin: 0 auto;
+    font-size: .8em;
+    background: none;
+    border: 2px solid #414141;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#panel-task > p{
+    margin: auto 0 5% 10%;
+    font-size: .6em;
+    font-weight: 400;
+    color: #414141C0;
+}
+
+#panel-task > button{
+    margin: 0 15% 15% auto;
+    padding: 10px 15px;
+    font-weight: 600;
+    background-color: #28A745;
+    color: #F4F4F4;
+    border: 2px solid #28A745;
+    transition-duration: .3s;
+}
+
+#panel-task > button:hover{
+    background: none;
+    color: #28A745;
+    transition-duration: .3s;
 }

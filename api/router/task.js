@@ -37,6 +37,7 @@ const taskHandler = {
         if(curretProject){
             const newTask = new Task({title,description,project,user});
             await newTask.save();
+            req.data.id = newTask._id.toString()
             res.statusCode = 201;
             res.end(JSON.stringify(req.data));
         } else{
@@ -47,17 +48,25 @@ const taskHandler = {
         const {id, title, description, project, state} = req.data;
         const {user} = req;
         const lastChangeDate = Date.now();
-        const currentProject = await Project.findById(project);
-        if(currentProject && currentProject.user === user){
-            const currentTask = await Task.findById(id);
-            if(currentTask && currentTask.user === user){
-                await Task.findByIdAndUpdate(id,{title,description,project,state,lastChangeDate});
-                res.statusCode = 200;
-                res.end(JSON.stringify(req.data));
-            } else 
-            throw (!currentTask) ? {message: 'error to modify the task', status: 400} : {message: 'Unauthorized User', status:403};
-        } else
-            throw (!currentProject) ? {message: 'error to modify the task', status: 400} : {message: 'Unauthorized User', status:403};
+        if(project){
+            const currentProject = await Project.findById(project);
+            if(!currentProject)
+                throw {message: 'the project don´t exist', status: 400}
+            if(currentProject.user !== user)
+                throw {message: 'Unauthorized User', status:403};
+        }
+        if(!id){
+            throw {message: 'unspecified id', status: 400}
+        }
+        const currentTask = await Task.findById(id);
+        if(!currentTask)
+            throw {message: 'incorrect id', status: 400};
+        if(currentTask.user !== user)
+            throw {message: 'Unauthorized User', status:403};
+
+        await Task.findByIdAndUpdate(id,{title,description,project,state,lastChangeDate});
+        res.statusCode = 201;
+        res.end(JSON.stringify(req.data));
     },
     DELETE: async (req,res) => {
         const {id} = req.data;

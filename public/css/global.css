@@ -45,6 +45,7 @@ main{
     font-size: 0.7em;
     font-weight: 300;
     box-sizing: border-box;
+    z-index: 5;
 }
 
 .msg button{

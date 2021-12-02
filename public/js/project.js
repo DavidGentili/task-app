@@ -1,4 +1,5 @@
 import { generateModal, removeModal } from "./modal-window.js";
+import { projectBoard } from "./board.js";
 
 const getProjects = async () => {
     const url = 'http://localhost:8080/api/project?state=active';
@@ -87,8 +88,10 @@ const postNewProject = (e) => {
         .then(async (res) => {
             if(res.status === 201){
                 removeModal();
-                const projects = await getProjects();
-                renderProjects(projects);
+                const data = await res.json();
+                projectBoard.push(data);
+                projectBoard.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1);
+                renderProjects(projectBoard);
             }
         })
     } else {
