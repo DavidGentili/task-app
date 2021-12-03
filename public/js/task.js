@@ -13,8 +13,10 @@ const createObjectTask = (task,projectBoard) => {
     action.className = 'actionButtons';
     check.className = 'fas fa-check';
     edit.className = 'fas fa-eye';
-    if(task.id)
+    if(task.id){
         check.addEventListener('click', prepareEventCompleted(task.id, projectBoard));
+        edit.addEventListener('click',prepareEditTaskEvent(task,projectBoard));
+    }
 
 
     div.appendChild(title);
@@ -95,6 +97,16 @@ const prepareEventCompleted = (idTask) => {
         .catch(function(){
             addNewMessage('we can´t complete the task','error');
         })
+    }
+}
+
+const prepareEditTaskEvent = (task,projectBoard) => {
+    return (e) => {
+        document.getElementById('panel-task').style.transform = 'translateX(0)';
+        
+        document.getElementById('titleOfTheTask').value = task.title;
+        document.getElementById('descriptionOfTheTask').value = task.description;
+        document.getElementById('DateOfTheTask').textContent = task.date;
     }
 }
 

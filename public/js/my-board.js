@@ -17,3 +17,6 @@ const startWindow = async () => {
 }
 
 startWindow();
+document.getElementById('buttonClosePanelTask').addEventListener('click', (e) => {
+    document.getElementById('panel-task').style.transform = '';
+});

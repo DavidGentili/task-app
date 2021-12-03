@@ -67,4 +67,8 @@ const eventSignup = (e) => {
 }
 document.getElementById('buttonSignup').addEventListener("click",eventSignup);
 document.getElementsByName('name')[0].focus();
+document.getElementsByName('confirmPassword')[0].addEventListener('keydown', (e) => {
+    if(e.key === 'Enter')
+        eventSignup();
+})
 

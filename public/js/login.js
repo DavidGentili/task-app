@@ -58,3 +58,7 @@ const eventLogin = () => {
 
 document.getElementById('buttonLogin').addEventListener('click', eventLogin);
 document.getElementsByName('email')[0].focus();
+document.getElementsByName('password')[0].addEventListener('keydown', (e) => {
+    if(e.key === 'Enter')
+        eventLogin();
+})
