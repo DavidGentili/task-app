@@ -34,7 +34,7 @@ const authPath = (req,res) => {
         req.user = user._id;
         routes[path][method](req,res)
         .catch(function(e){
-            console.log(e);
+            // console.log(e);
             resolveThrow(e,res);
         })
     }else{  

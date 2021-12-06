@@ -1,0 +1,73 @@
+aside > button {
+    display: flex;
+    margin: 20px auto;
+    padding: 10px 20px;
+    color: #FFFFFF;
+    border: 2px solid #FF6A5C;
+    background-color: #FF6A5C;
+    transition-duration: .3s;
+}
+
+aside > button:hover{
+    background: none;
+    color: #FF6A5C;
+    transition-duration: .3s;
+}
+
+aside .aside-menu{
+    display: flex;
+    justify-content: space-between;
+}
+
+aside .aside-menu button{
+    font-size: .7em;
+    background: none;
+    border: none;
+    color: #414141;
+    font-weight: 600;
+    transition-duration: .3s;
+}
+
+aside .aside-menu button:hover{
+    color: #FF6A5C;
+    transition-duration: .3s;
+    cursor: pointer;
+}
+
+aside .aside-menu #buttonAddNewProject{
+    font-weight: 400;
+    color: #FF6A5C;
+    font-size: .6em;
+    padding: 10px 5px;
+}
+
+aside .aside-menu #buttonAddNewProject:hover{
+    background-color: #F4F4F480;
+    cursor: pointer;
+}
+
+aside a{
+    text-decoration: none;
+    color: #414141;
+    margin: 10px 0;
+    transition-duration: .3s;
+}
+
+aside a:hover{
+    color: #FF6A5C;
+    transition-duration: .3s;
+    background-color: #F4F4F460;
+}
+
+aside img {
+    width: 80%;
+    height: auto;
+    margin: 50px auto 0 auto;
+}
+
+aside p{
+    font-size: 0.5em;
+    font-weight: 400;
+    color: #FF6A5C;
+    margin: 20px auto;
+}

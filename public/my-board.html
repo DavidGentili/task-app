@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/global-board.css">
+    <link rel="stylesheet" href="css/aside.css">
+    <link rel="stylesheet" href="css/panel-task.css">
     <link rel="stylesheet" href="css/my-board.css">
     <script src="https://kit.fontawesome.com/2a1ee6f5dc.js" crossorigin="anonymous"></script>
     <title>my board</title>
@@ -13,7 +15,7 @@
 <body>
 
     <nav>
-        <button id="buttonOpenMenuBoard"><i class="fas fa-bars"></i></button>
+        <button id="buttonOpenAsidePanel"><i class="fas fa-bars"></i></button>
         <a href="/user" id="nameOfUser"></a>
     </nav>
 
@@ -21,9 +23,9 @@
         
     </section>
 
-    <aside id="menu-board">
+    <aside id="aside-panel">
         <div class="aside-menu" id="aside-menu">
-            <button id="buttonCloseMenuBoard">X</button>
+            <button id="buttonCloseAsidePanel"><i class="fas fa-times"></i></button>
         </div>
     </aside>
 
@@ -33,23 +35,22 @@
 
     <section id="panel-task">
         <div class="panel-menu">
-            <button id="buttonClosePanelTask">X</button>
+            <button id="buttonClosePanelTask"><i class="fas fa-times"></i></button>
         </div>
-        <input id="titleOfTheTask" type="text" class="title" placeholder="The title">
-        <textarea id="descriptionOfTheTask" ></textarea>
-        <p id="DateOfTheTask"></p>
-        <div class="panel-buttons">
-            <div class="removeTask">
-                <i class="fas fa-trash"></i>
-                <p>remove task</p>
-            </div>
-            <button>Upgrade</button>
+
+        <div class="panel-data">
+            <input id="titleOfTheTask" type="text" class="title" placeholder="The title">
+            <textarea id="descriptionOfTheTask" ></textarea>
+            <p id="DateOfTheTask"></p>
+        </div>
+
+        <div id="panel-buttons" class="panel-buttons">
+            
         </div>
     </section>
 
 
     <script src="js/internMessage.js" type="module"></script>
-    <script src="js/menu-board.js"></script>
     <script src="js/my-board.js" type="module"></script>
 
 </body>

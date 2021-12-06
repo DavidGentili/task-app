@@ -1,8 +1,12 @@
 body{
     font-size: 24px;
-    font-family: 'Segoe UI', Helvetica, sans-serif, Arial  ;
+    font-family: 'Segoe UI', Helvetica, sans-serif, Arial;
     margin: 0;
     padding: 0;
+}
+
+textarea{
+    font-family: 'Segoe UI', Helvetica, sans-serif, Arial;
 }
 
 h1,h2,h3,h4,h5,h6,p{

@@ -1,7 +1,9 @@
-import { addNewMessage } from "./messages.js";
+import { addNewMessage, cleanMsgPanel } from "./messages.js";
+import { removeTaskOfProjectBoard, addTaskToProjectBoard } from './projectBoard.js';
+import { prepareEventEditTask } from "./panel-task.js";
 const urlTask = 'http://localhost:8080/api/task';
 
-const createObjectTask = (task,projectBoard) => {
+const createObjectTask = (props) => {
     const div = document.createElement('div');
     const title = document.createElement('input');
     const action = document.createElement('div');
@@ -9,13 +11,13 @@ const createObjectTask = (task,projectBoard) => {
     const edit = document.createElement('i');
 
     div.className = 'task';
-    title.value = task.title;
+    title.value = (props.task && props.task.title) ? props.task.title : '';
     action.className = 'actionButtons';
     check.className = 'fas fa-check';
     edit.className = 'fas fa-eye';
-    if(task.id){
-        check.addEventListener('click', prepareEventCompleted(task.id, projectBoard));
-        edit.addEventListener('click',prepareEditTaskEvent(task,projectBoard));
+    if(props.task && props.task.title){
+        check.addEventListener('click', prepareEventCompleted(props));
+        edit.addEventListener('click',prepareEventEditTask(props));
     }
 
 
@@ -26,27 +28,8 @@ const createObjectTask = (task,projectBoard) => {
     return div;   
 }
 
-const addTaskToProjectBoard = (task,projectBoard) => {
-    const i = projectBoard.findIndex(project => project.id === task.project)
-    if(i !== -1){
-        projectBoard[i].tasks.push(task);
-    }
-}
-
-const preparePostNewTask = (idProject,projectBoard) => {
-    return  function(e){
-        e.preventDefault()
-        const value = e.target.value.trim();
-        if(value.length > 0){
-            postNewTask(idProject,value,e.target,projectBoard);
-        } else{
-            e.target.parentNode.remove();
-        }
-    }
-}
-
-const postNewTask = (project,title,input,projectBoard) => {
-    const data = {project, title};
+const postNewTask = (props) => {
+    const data = {project: props.project, title: props.title};
     fetch(urlTask, {
         method: 'POST',
         mode: 'cors',
@@ -58,8 +41,14 @@ const postNewTask = (project,title,input,projectBoard) => {
     }).then(function(res){
         if(res.status === 201){
             res.json().then(function(data){
-                input.nextSibling.childNodes[1].addEventListener('click',prepareEventCompleted(data.id));
-                addTaskToProjectBoard(data,projectBoard);
+                const newProps = {
+                    task: data,
+                    projectBoard: props.projectBoard,
+                    renderProjectBoard: props.renderProjectBoard
+                }
+                props.target.nextSibling.childNodes[1].addEventListener('click',prepareEventCompleted(newProps));
+                props.target.nextSibling.childNodes[0].addEventListener('click',prepareEventEditTask(newProps));
+                addTaskToProjectBoard(data,props.projectBoard);
             })
         } else {
             input.parentNode.remove();
@@ -73,9 +62,10 @@ const postNewTask = (project,title,input,projectBoard) => {
     })
 }
 
-const prepareEventCompleted = (idTask) => {
+const prepareEventCompleted = (props) => {
     return function(e){
-        const data = {id: idTask, state: 'finished'}
+        const {task} = props
+        const data = {id: task.id, state: 'finished'}
         fetch(urlTask, {
             method: 'PUT',
             mode: 'cors',
@@ -87,30 +77,23 @@ const prepareEventCompleted = (idTask) => {
         })
         .then(function(res){
             if(res.status === 201){
-                e.target.parentNode.parentNode.remove();
-                res.json().then(function(data){
-                    addNewMessage('the task was completed successful','successful');
-                })
+                const {projectBoard} = props;
+                const i = removeTaskOfProjectBoard(task,projectBoard);
+                if(i === 0)
+                    props.renderProjectBoard();
+                else
+                    e.target.parentNode.parentNode.remove();
             } else
                 addNewMessage('we can´t complete the task','error');
         })
-        .catch(function(){
+        .catch(function(error){
+            console.log(error)
             addNewMessage('we can´t complete the task','error');
         })
     }
 }
 
-const prepareEditTaskEvent = (task,projectBoard) => {
-    return (e) => {
-        document.getElementById('panel-task').style.transform = 'translateX(0)';
-        
-        document.getElementById('titleOfTheTask').value = task.title;
-        document.getElementById('descriptionOfTheTask').value = task.description;
-        document.getElementById('DateOfTheTask').textContent = task.date;
-    }
-}
-
 export {
     createObjectTask,
-    preparePostNewTask
+    postNewTask
 }

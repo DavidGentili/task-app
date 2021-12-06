@@ -1,0 +1,125 @@
+#panel-task{
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition-duration: 1s;
+    background-color: #FEFEFE;
+    width: 40vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 4;
+    box-shadow: -4px 0 10px #00000020;
+}
+
+#panel-task .panel-menu{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+#panel-task .panel-menu button{
+    background: none;
+    border: none;
+    font-weight: 600;
+    font-size: .7em;
+    color: #414141;
+    margin: 40px 50px;
+    transition-duration: .3s;
+}
+
+#panel-task .panel-menu button:hover{
+    color: #FF6A5C;
+    cursor: pointer;
+    transition-duration: .3s;
+}
+
+#panel-task .panel-data{
+    display: flex;
+    flex-direction: column;
+}
+
+#panel-task .panel-data input{
+    width: 70%;
+    margin: 20px auto 50px auto;
+    padding: 3px;
+    font-size:  .9em;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #414141A0;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#panel-task .panel-data textarea{
+    min-width: 70%;
+    max-width: 70%;
+    min-height: 200px;
+    max-height: 250px;
+    margin: 0 auto;
+    font-size: .8em;
+    font-weight: 500;
+    background: none;
+    border: 2px solid #41414160;
+    border-radius: 10px;
+    padding: 10px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#panel-task .panel-data p{
+    margin: 45px 0 auto 10%;
+    font-size: .6em;
+    font-weight: 400;
+    color: #414141C0;
+}
+
+#panel-task .panel-buttons{
+    display: flex;
+    justify-content: space-between;
+    padding: 10%;
+    box-sizing: border-box;
+    margin-top: auto;
+}
+
+#panel-task .panel-buttons .removeTask{
+    opacity: .7;
+    display: flex;
+    color: #DC3545;
+    align-items: center;
+    transition-duration: .3s;
+}
+
+#panel-task .panel-buttons .removeTask:hover{
+    opacity: 1;
+    transition-duration: .3s;
+    cursor: pointer;
+}
+
+#panel-task .panel-buttons .removeTask i{
+    margin-right: 10px;
+    font-size: .9em;
+}
+
+#panel-task .panel-buttons .removeTask p{
+    font-size: .7em;
+}
+
+#panel-task .panel-buttons button{
+    display: flex;
+    margin: auto 0 auto auto;
+    padding: 10px 15px;
+    font-weight: 600;
+    background-color: #28A745;
+    color: #F4F4F4;
+    border: 2px solid #28A745;
+    transition-duration: .3s;
+}
+
+#panel-task .panel-buttons button:hover{
+    background: none;
+    color: #28A745;
+    cursor: pointer;
+    transition-duration: .3s;
+}

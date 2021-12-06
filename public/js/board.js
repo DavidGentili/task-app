@@ -1,6 +1,7 @@
-import { createObjectTask, preparePostNewTask } from "./task.js";
+import { createObjectTask, postNewTask } from "./task.js";
+
+
 const urlBoard = 'http://localhost:8080/api/board?taskState=pending&projectState=active';
-const projectBoard = [];
 
 const getProjectBoard = async (projectBoard) => {
     const authentication = localStorage.getItem('userToken');
@@ -26,6 +27,7 @@ const refreshProjectBoard = (data,projectBoard) => {
 
 const renderProjectBoard = (projectBoard) => {
     const main = document.querySelector('main');
+    cleanWindowProjectBoard();
     projectBoard.forEach( project => {
         if(project.tasks.length > 0)
             main.appendChild(createObjectProject(project,projectBoard));
@@ -50,7 +52,7 @@ const createObjectProject = (project,projectBoard) => {
     button.addEventListener('click', prepareEventNewTask(project.id,projectBoard));
 
     project.tasks.forEach(task => {
-        taskArea.appendChild(createObjectTask(task))
+        taskArea.appendChild(createObjectTask({task, projectBoard, renderProjectBoard}))
     })
 
     elemtProject.appendChild(title);
@@ -61,15 +63,39 @@ const createObjectProject = (project,projectBoard) => {
     return elemtProject;
 }
 
-const prepareEventNewTask = (idProject, projectBoard) => {
+const prepareEventNewTask = (idProject,projectBoard) => {
     return function(e){
         e.preventDefault();
-        const task = createObjectTask({title:''});
+        const task = createObjectTask({});
         const taskArea = e.target.parentNode.nextSibling;
         const input = task.childNodes[0]; 
         taskArea.appendChild(task)
         input.focus();
         input.addEventListener('focusout', preparePostNewTask(idProject,projectBoard));
+        input.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter'){
+                input.blur();
+            }
+        })
+    }
+}
+
+const preparePostNewTask = (idProject, projectBoard) => {
+    return  function(e){
+        e.preventDefault()
+        const value = e.target.value.trim();
+        if(value.length > 0){
+            const props = {
+                project: idProject,
+                title: value,
+                target: e.target,
+                projectBoard,
+                renderProjectBoard,
+            }
+            postNewTask(props);
+        } else{
+            e.target.parentNode.remove();
+        }
     }
 }
 
@@ -94,6 +120,5 @@ const toggleProjectTasks = (e) => {
 
 export {
     renderProjectBoard,
-    getProjectBoard,
-    projectBoard
+    getProjectBoard
 }
