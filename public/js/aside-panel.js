@@ -58,7 +58,7 @@ const renderProjects = (projectBoard) => {
 
 //Renderiza la visualizacion necesaria para cuando no se tiene proyectos
 const noProject = (projectBoard) => {
-    const aside = document.getElementById('menu-board');
+    const aside = document.getElementById('aside-panel');
     const img = document.createElement('img');
     const p = document.createElement('p');
     const button = document.createElement('button');
@@ -79,6 +79,7 @@ const noProject = (projectBoard) => {
 //evento que renderiza una ventana modal y se encarga de asignar los elementos del header
 const prepareEventInputNewProject = (projectBoard) => {
     return (e) => {  
+        e.preventDefault();
         generateModal();
         const header = document.getElementById('headerCard');
         const body = document.getElementById('bodyCard');
@@ -117,7 +118,7 @@ const bodyNewProject = (body, projectBoard) => {
 
 //Se encarga de hacer un post del nuevo proyecto, se añade a projectBoard y se renderizan todos los proyectos 
 const prepareEventNewProject = (projectBoard) => {
-    return (e) =>{
+    return (e) => {
          e.preventDefault();
         const url = 'http://localhost:8080/api/project'
         const name = document.getElementsByName('nameProject')[0];
@@ -137,7 +138,6 @@ const prepareEventNewProject = (projectBoard) => {
                 if(res.status === 201){
                     removeModal();
                     const data = await res.json();
-                    projectBoard.push(data);
                     addProjectToProjectBoard(data,projectBoard);
                     renderProjects(projectBoard);
                 }
