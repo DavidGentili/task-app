@@ -6,9 +6,6 @@ const removeTaskOfProjectBoard = (task,projectBoard) => {
     if(i !== -1){
         projectBoard[i].tasks = projectBoard[i].tasks.filter(current => current.id != task.id);
     }
-    // projectBoard.forEach(project => {
-    //     project.tasks = project.tasks.filter(current => current.id != task.id);
-    // })
 }
 
 const upgradeTaskOfProjectBoard = (task, projectBoard) => {

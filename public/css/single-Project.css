@@ -1,0 +1,95 @@
+main{
+    padding: 5vh 15vw;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.panel-header{
+    display: flex;
+    width: 100%;
+    padding-bottom: 50px;
+}
+
+.panel-header h2{
+    font-size: 2em;
+    padding: 1em 1.4em;
+    margin-right: .5em;
+    background-color: #FF6a5C;
+    color: #FFFFFF;
+}
+
+.panel-header .info h3{
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+.panel-header .info h6{
+    font-size: .9em;
+    margin: .4em 0;
+    color: #000000A0;
+}
+
+.panel-header .info p{
+    font-size: .7em;
+    font-weight: 400;
+    margin: .4em 0;
+    color: #00000060;
+}
+
+.panel-header .info button{
+    background: none;
+    border: none;
+    font-size: .9em;
+    color: #000000A0;
+    transition-duration: .3s;
+}
+
+.panel-header .info button:hover{
+    color: #FF6a5C;
+    transition-duration: .3s;
+}
+
+.panel-header button{
+    margin-left: auto;
+    margin-top: auto;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: #000000A0;
+    transition-duration: .3s;
+}
+
+.panel-header button:hover{
+    color: #FF6a5C;
+    transition-duration: .3s;
+}
+
+.panel-body{
+    width: 100%;
+}
+
+.panel-body .task{
+    width: 100%;
+    display: flex;
+    align-content: center;
+    border-top: 1px solid #00000040;
+    padding: 10px 0;
+}
+
+.panel-body .task input{
+    background: none;
+    border: none;
+    outline: none;
+    width: 30%;
+    margin-right: 2em;
+    font-size: .7em;
+}
+
+.panel-body .task input:focus{
+    border: 1px solid #00000060;
+}
+
+.panel-body .task p{
+    font-size: .8em;
+    font-weight: 300;
+}

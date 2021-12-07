@@ -10,7 +10,9 @@ const getProjectByQuery = async (query,user,res) => {
             searchArgument[elem] = query[elem];
     })
     if(Object.keys(searchArgument).length){
-        const project = await Project.find(searchArgument);
+        let project = await Project.find(searchArgument);
+        if(Array.isArray(project) && project.length === 1)
+            project = project[0];
         res.statusCode = 200;
         res.end(JSON.stringify(project));
     } else 
@@ -31,7 +33,7 @@ const removeTaskOfTheProject = async (id) => {
 const projectsHandler = {
     GET: async (req,res) => {
         const {user,query} = req;
-        if(Object.keys(query).length){
+        if(Object.keys(query).length > 0){
            getProjectByQuery(query,user,res);       
         } else{
             const projects = await Project.find({user});

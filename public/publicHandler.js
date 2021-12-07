@@ -48,12 +48,10 @@ const resourceHandler = async (req,res) => {
 const publicHandler = (req,res) => {
     const resource = ['css','js','img'];
     const path = req.path[0];
-    let response = {body: '',status: 200}
     if(resource.includes(path))
         resourceHandler(req,res);
     else
         htmlHandler(req,res);
-
 };
 
 
