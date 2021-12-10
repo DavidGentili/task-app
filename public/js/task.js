@@ -7,24 +7,31 @@ const createObjectTask = (props) => {
     const div = document.createElement('div');
     const title = document.createElement('input');
     const action = document.createElement('div');
-    const check = document.createElement('i');
-    const edit = document.createElement('i');
+    const check = (props.eventCompleted) ? document.createElement('i') : undefined ;
+    const edit = (props.eventEdit) ? document.createElement('i') : undefined;
 
     div.className = 'task';
     title.value = (props.task && props.task.title) ? props.task.title : '';
     action.className = 'actionButtons';
-    check.className = 'fas fa-check';
-    edit.className = 'fas fa-eye';
-    if(props.task && props.task.title){
-        check.addEventListener('click', prepareEventCompleted(props));
-        edit.addEventListener('click',prepareEventEditTask(props));
+    if(edit){
+        edit.className = 'fas fa-eye';
+        action.appendChild(edit);
     }
-
+    if(check){
+        check.className = 'fas fa-check';
+        action.appendChild(check);
+    }
+    if(props.task && props.task.title){
+        const {task, projectBoard, renderProjectBoard} = props;
+        if(props.eventCompleted)
+            check.addEventListener('click', prepareEventCompleted({task, projectBoard, renderProjectBoard}));
+        if(props.eventEdit)
+            edit.addEventListener('click',prepareEventEditTask({task, projectBoard, renderProjectBoard}));
+    }
 
     div.appendChild(title);
     div.appendChild(action);
-    action.appendChild(edit);
-    action.appendChild(check);
+    
     return div;   
 }
 

@@ -1,5 +1,7 @@
 const Task = require('../models/Task');
 const Project = require('../models/Project');
+const {formatResponse} = require('../formatResponse');
+
 
 const getTaskByQuery = async (query,user,res) => {
     const acceptedArgument = ['_id','project','state']
@@ -10,8 +12,9 @@ const getTaskByQuery = async (query,user,res) => {
             searchArgument[elem] = query[elem];
     })
     if(Object.keys(searchArgument).length){
-        const task = await Task.find(searchArgument);
+        const task = await Task.find(searchArgument).lean();
         res.statusCode = 200;
+        formatResponse(task)
         res.end(JSON.stringify(task));
     } else 
         throw {message: 'Bad query arguments', status: 400};
@@ -26,6 +29,7 @@ const taskHandler = {
         else{
             const tasks = await Task.find({user});
             res.statusCode = 200;
+            formatResponse(tasks);
             res.end(JSON.stringify(tasks));
         }
         

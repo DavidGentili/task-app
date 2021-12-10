@@ -84,6 +84,8 @@
 }
 
 #panel-task .panel-buttons .removeTask{
+    background: none;
+    border: none;
     opacity: .7;
     display: flex;
     color: #DC3545;
@@ -99,14 +101,14 @@
 
 #panel-task .panel-buttons .removeTask i{
     margin-right: 10px;
-    font-size: .9em;
+    font-size: 1.5em;
 }
 
 #panel-task .panel-buttons .removeTask p{
-    font-size: .7em;
+    font-size: 1.4em;
 }
 
-#panel-task .panel-buttons button{
+#panel-task .panel-buttons .buttonUpdate{
     display: flex;
     margin: auto 0 auto auto;
     padding: 10px 15px;
@@ -117,7 +119,7 @@
     transition-duration: .3s;
 }
 
-#panel-task .panel-buttons button:hover{
+#panel-task .panel-buttons .buttonUpdate:hover{
     background: none;
     color: #28A745;
     cursor: pointer;

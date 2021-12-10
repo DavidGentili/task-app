@@ -52,7 +52,7 @@ const createObjectProject = (project,projectBoard) => {
     button.addEventListener('click', prepareEventNewTask(project.id,projectBoard));
 
     project.tasks.forEach(task => {
-        taskArea.appendChild(createObjectTask({task, projectBoard, renderProjectBoard}))
+        taskArea.appendChild(createObjectTask({task, projectBoard, renderProjectBoard, eventCompleted: true, eventEdit: true}))
     })
 
     elemtProject.appendChild(title);
@@ -66,7 +66,7 @@ const createObjectProject = (project,projectBoard) => {
 const prepareEventNewTask = (idProject,projectBoard) => {
     return function(e){
         e.preventDefault();
-        const task = createObjectTask({});
+        const task = createObjectTask({eventCompleted: true, eventEdit: true});
         const taskArea = e.target.parentNode.nextSibling;
         const input = task.childNodes[0]; 
         taskArea.appendChild(task)

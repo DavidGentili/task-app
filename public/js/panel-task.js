@@ -1,5 +1,6 @@
 import { removeTaskOfProjectBoard } from "./projectBoard.js";
 import {cleanMsgPanel, addNewMessage} from './messages.js'
+import { generateAButton } from "./button.js";
 const urlTask = 'http://localhost:8080/api/task';
 
 
@@ -9,7 +10,7 @@ const prepareEventEditTask = (props) => {
         openPanelTask();
         const date = new Date(task.date);
         document.getElementById('titleOfTheTask').value = task.title;
-        document.getElementById('descriptionOfTheTask').value = task.description;
+        document.getElementById('descriptionOfTheTask').value = (task.description != undefined) ? task.description : '';
         document.getElementById('DateOfTheTask').textContent = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
         refreshPanelTaskActions(props);
         
@@ -22,21 +23,16 @@ const refreshPanelTaskActions = (props) => {
     while(children.length > 0)
         children[0].remove();
     
-    const div = document.createElement('div');
     const i = document.createElement('i');
     const p = document.createElement('p');
-    const button = document.createElement('button');
+    const button = generateAButton('Update','','buttonUpdate',prepareEventUpgradeTask(props))
 
     const titleInput = document.getElementById('titleOfTheTask');
     const descriptionInput = document.getElementById('descriptionOfTheTask');
 
-    div.className = 'removeTask';
     i.className = 'fas fa-trash';
     p.textContent = 'remove task';
-    button.textContent = 'Upgrade';
 
-    div.addEventListener('click', PrepareRemoveTask(props));
-    button.addEventListener('click', prepareEventUpgradeTask(props));
 
     titleInput.addEventListener('keydown', (e) => {
         if(e.key === 'Enter')
@@ -47,9 +43,7 @@ const refreshPanelTaskActions = (props) => {
             button.focus();
     })
 
-    div.appendChild(i);
-    div.appendChild(p);
-    panel.appendChild(div);
+    panel.appendChild(generateAButton(undefined,undefined,'removeTask',PrepareRemoveTask(props),[i,p]));
     panel.appendChild(button);
 } 
 

@@ -1,8 +1,9 @@
 const urlProject = 'http://localhost:8080/Api/project';
+import { generateModal, removeModal } from "./modal-window.js";
+import {generateASelect} from './select.js'
 
 const getProject = async (idProject) => {
     const url = (idProject) ? `${urlProject}?_id=${idProject}` : urlProject;
-    console.log(url)
     const res = await fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -26,6 +27,26 @@ const refreshProject = (data, projects) => {
     data.forEach(singleProject => projects.push(singleProject));
 }
 
+const prepareEventEditProject = (project) => {
+    return (e) => {
+        generateModal('Update the project');
+        const body = document.getElementById('bodyCard');
+        body.classList += ' modalEditoProject';
+        const title = document.createElement('input');
+        const props = {
+            elements: ['actived', 'archived'],
+            name: 'stateOfProject',
+            selected: project.state,
+        }
+        title.value = project.name;
+
+        body.appendChild(title);
+        body.appendChild(generateASelect(props));
+        
+    }
+}
+
 export {
-    getProject
+    getProject,
+    prepareEventEditProject,
 }

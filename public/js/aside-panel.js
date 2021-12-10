@@ -1,5 +1,6 @@
 import { generateModal, removeModal } from "./modal-window.js";
 import { addProjectToProjectBoard } from "./projectBoard.js";
+import {generateAButton} from './button.js';
 
 // obtiene los proyectos del usuario desde la API. Retorna una lista de proyectos
 const getProjects = async () => {
@@ -40,13 +41,8 @@ const renderProjects = (projectBoard) => {
         act = act.nextSibling;
         ant.remove();
     }
-    if(!document.getElementById('buttonAddNewProject')){
-        const button = document.createElement('button');
-        button.textContent = '+ add new project';
-        button.id = 'buttonAddNewProject';
-        button.addEventListener('click',prepareEventInputNewProject(projectBoard));
-        menu.insertBefore(button,menu.firstChild);
-    }
+    if(!document.getElementById('buttonAddNewProject'))
+        menu.insertBefore(generateAButton('+ add new project','buttonAddNewProject','',prepareEventInputNewProject(projectBoard)),menu.firstChild);
 
     projectBoard.forEach(project => {
         const a = document.createElement('a');
@@ -80,14 +76,8 @@ const noProject = (projectBoard) => {
 const prepareEventInputNewProject = (projectBoard) => {
     return (e) => {  
         e.preventDefault();
-        generateModal();
-        const header = document.getElementById('headerCard');
-        const body = document.getElementById('bodyCard');
-
-        const h4 = document.createElement('h4');
-        h4.textContent = 'Create a new project';
-        header.insertBefore(h4,header.firstChild);
-        
+        generateModal('Create a new project');
+        const body = document.getElementById('bodyCard');        
         bodyNewProject(body, projectBoard);
     }
 }

@@ -21,6 +21,7 @@ const resolveThrow = (e,res) => {
         res.statusCode = status;
         res.end(JSON.stringify({message}));
     } else {
+        console.log(e)
         res.statusCode = 400;
         res.end(JSON.stringify({message: 'opss we have a problem'}));
     }
