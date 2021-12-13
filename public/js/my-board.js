@@ -7,7 +7,7 @@ const projectBoard = [];
 const startWindow = async () => {
     const user = await getUser();
     console.log(user);
-    if(user != {}){
+    if(user){
         renderUser(user);
         await getProjectBoard(projectBoard);
         if(projectBoard.length > 0){
@@ -23,9 +23,15 @@ const startWindow = async () => {
 }
 
 
+const logoutFunction = () => {
+    localStorage.removeItem('userToken');
+    location.href = '/';
+}
+
 startWindow();
 document.getElementById('buttonOpenAsidePanel').addEventListener('click',openAsidePanel);
 document.getElementById('buttonCloseAsidePanel').addEventListener('click', closeAsidePanel);
+document.getElementById('LogoutButton').addEventListener('click', logoutFunction);
 document.getElementById('buttonClosePanelTask').addEventListener('click', (e) => {
     document.getElementById('panel-task').style.transform = '';
 });

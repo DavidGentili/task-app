@@ -1,5 +1,4 @@
 import { openAsidePanel, closeAsidePanel, renderProjects, noProject } from './aside-panel.js'
-import { addNewMessage } from './messages.js';
 import { getProject, prepareModalEditProject } from './project.js';
 import { generateProjectBoard } from './projectBoard.js';
 import { getTask, createObjectTask, postNewTask } from './task.js';
@@ -12,7 +11,7 @@ const projectBoard = [];
 
 const starWindow = async () => {
     const user = await getUser();
-    if(user != {}){
+    if(user){
         renderUser(user);
         const project = await getProject(idProject)
         renderSingleProject(project)
@@ -109,10 +108,16 @@ const eventNewTask = (e) => {
         document.getElementById('panel-body').lastChild.remove();
 }
 
+const logoutFunction = () => {
+    localStorage.removeItem('userToken');
+    location.href = '/';
+}
+
 
 starWindow()
 document.getElementById('buttonOpenAsidePanel').addEventListener('click', openAsidePanel);
 document.getElementById('buttonCloseAsidePanel').addEventListener('click',closeAsidePanel);
+document.getElementById('LogoutButton').addEventListener('click', logoutFunction);
 document.getElementById('buttonClosePanelTask').addEventListener('click', (e) => {
     document.getElementById('panel-task').style.transform = '';
 });

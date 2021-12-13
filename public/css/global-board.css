@@ -4,10 +4,11 @@ nav{
     display: flex;
     box-sizing: border-box;
     align-items: center;
+    justify-content: space-between;
     box-shadow: 0px 2px 10px #00000020;
 }
 
-nav button{
+nav > button{
     font-size: 1em;
     color: #414141;
     padding: 10px 14px;
@@ -18,7 +19,7 @@ nav button{
 
 }
 
-nav button:hover{
+nav > button:hover{
     background-color: #F4F4F4;
     transition-duration: .3s;
     cursor: pointer;
@@ -26,6 +27,7 @@ nav button:hover{
 
 nav #nameOfUser{
     text-decoration: none;
+    margin-right: auto;
     color: #414141;
     margin-left: 20px;
     transition-duration: .3s;
@@ -37,9 +39,11 @@ nav #nameOfUser:hover{
     transition-duration: .3s;
 }
 
+nav .navActions{
+    display: flex;
+}
 nav .toMyBoard{
     text-decoration: none;
-    margin-left: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,6 +76,36 @@ nav .toMyBoard:hover i{
 }
 
 nav .toMyBoard:hover h6{
+    opacity: 1;
+    transition-duration: .3s;
+}
+
+nav .logout{
+    color: #414141;
+    background: none;
+    border: none;
+    font-size: 1em;
+}
+
+nav .logout i{
+    transform: translateY(50%);
+    transition-duration: .3s;
+
+}
+
+nav .logout h6{
+    opacity: 0;
+    transition-duration: .3s;
+}
+
+nav .logout:hover i{    
+    color: #FF6A5C;
+    transform: translateY(0);
+    transition-duration: .3s;
+}
+
+nav .logout:hover h6{    
+    color: #FF6A5C;
     opacity: 1;
     transition-duration: .3s;
 }

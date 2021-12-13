@@ -93,11 +93,9 @@ const prepareEventUpgradeTask = (props) => {
         })
         .then(async function(res){
             if(res.status === 201){
-                console.log(props.task);
                 props.task.title = title;
                 props.task.description = description;
                 props.render(props.projectBoard); 
-                console.log(props.projectBoard);
                 addNewMessage('the task was updated successfully','successful');
             } else {
                 const {message} = await res.json();
