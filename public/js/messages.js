@@ -1,18 +1,16 @@
+import { generateAButton } from "./button.js";
+
 const addNewMessage = (message,type) => {
     const elementMessage = document.createElement('div');
     const textMessage = document.createElement('p');
-    const button = document.createElement('button');
+    const timeOut = setTimeout(eventClose(elementMessage),10000);
 
     elementMessage.classList = `msg msg-${type}`;
     textMessage.textContent = message;
-    button.textContent = 'X';
-    button.addEventListener('click',eventClose);
     document.getElementById('msg-panel').appendChild(elementMessage);
 
     elementMessage.appendChild(textMessage);
-    elementMessage.appendChild(button);
-    
-
+    elementMessage.appendChild(generateAButton('X','','',eventClose(elementMessage,timeOut)));
 }
 
 const addInternalMessage = (message) => {
@@ -28,14 +26,15 @@ const cleanMsgPanel = () => {
         childrens[i].remove();
 }
 
-const eventClose = (e) => {
-    let element = e.target;
-    while(!element.classList.contains('msg'))
-        element = element.parentNode;
-    element.style.opacity = '0';
-    setTimeout(function(){
-        element.remove();
-    },1000);
+const eventClose = (element, timeOut) => {
+    return (e) => {
+        if(timeOut)
+            clearTimeout(timeOut);
+        element.style.opacity = '0';
+        setTimeout(function(){
+            element.remove();
+        },1000);
+    }
 }
 
 export {
