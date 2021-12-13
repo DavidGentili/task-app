@@ -35,7 +35,7 @@ const starWindow = async () => {
                 }
             })
         .catch((e) => {
-            console.error(e);
+            console.log(e);
         })
     }
 }

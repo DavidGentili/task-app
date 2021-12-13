@@ -1,16 +1,11 @@
 const Project = require('../models/Project');
 const Task = require('../models/Task');
-const {formatResponse} = require('../formatResponse');
+const {formatResponse} = require('../helpers');
 
 
 const getProjectByQuery = async (query,user,res) => {
     const acceptedArgument = ['id','state']
-    const keys = Object.keys(query);
-    const searchArgument = {user};
-    keys.forEach(elem => {
-        if(acceptedArgument.includes(elem))
-            searchArgument[(elem === 'id') ? '_'+elem : elem] = query[elem];
-    })
+    const searchArgument = formatQuery(query,user,acceptedArgument);
     if(Object.keys(searchArgument).length){
         let project = await Project.find(searchArgument).lean();
         if(Array.isArray(project) && project.length === 1)
