@@ -9,10 +9,12 @@ const createObjectTask = (props) => {
     const action = document.createElement('div');
     const check = (props.eventCompleted) ? document.createElement('i') : undefined ;
     const edit = (props.eventEdit) ? document.createElement('i') : undefined;
-
+    const state = (props.showState) ? document.createElement('h6') : undefined;
     div.className = 'task';
     title.value = (props.task && props.task.title) ? props.task.title : '';
     action.className = 'actionButtons';
+    if(state)
+        state.textContent = props.task.state;
     if(edit){
         edit.className = 'fas fa-eye';
         action.appendChild(edit);
@@ -30,6 +32,8 @@ const createObjectTask = (props) => {
     }
 
     div.appendChild(title);
+    if(state)
+        div.appendChild(state);
     div.appendChild(action);
     
     return div;   
@@ -48,17 +52,20 @@ const postNewTask = (props) => {
     }).then(function(res){
         if(res.status === 201){
             res.json().then(function(data){
+                const newTask = addTaskToProjectBoard(data,props.projectBoard);
                 const newProps = {
-                    task: data,
+                    task: newTask,
                     projectBoard: props.projectBoard,
                     render: props.render,
+                    eventEdit: (props.eventEdit) ? props.eventEdit : undefined,
+                    eventCompleted: (props.eventCompleted) ? props.eventCompleted : undefined,
+                    showState : (props.showState) ? props.showState : undefined
                 }
-                props.target.nextSibling.childNodes[1].addEventListener('click',prepareEventCompleted(newProps));
-                props.target.nextSibling.childNodes[0].addEventListener('click',prepareEventEditTask(newProps));
-                addTaskToProjectBoard(data,props.projectBoard);
+                props.taskArea.lastChild.remove();
+                props.taskArea.appendChild(createObjectTask(newProps));
             })
         } else {
-            input.parentNode.remove();
+            props.target.parentNode.remove();
             addNewMessage('we can´t create the new task', 'error');
         }
     })

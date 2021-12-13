@@ -148,7 +148,7 @@ main{
 }
 
 .task input:focus{
-    border: 1px solid #414141;
+    border: 1px solid #41414180;
 }
 
 .task .actionButtons i{
@@ -169,4 +169,10 @@ main{
     opacity: 1;
     transition-duration: .3s;
 }
+
+.task h6{
+    font-family: 400;
+    color: #414141;
+}
+
 

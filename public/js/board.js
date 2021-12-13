@@ -66,9 +66,11 @@ const createObjectProject = (project,projectBoard) => {
 const prepareEventNewTask = (idProject,projectBoard) => {
     return function(e){
         e.preventDefault();
-        const task = createObjectTask({eventCompleted: true, eventEdit: true});
         const taskArea = e.target.parentNode.nextSibling;
-        const input = task.childNodes[0]; 
+        const task = document.createElement('div');
+        const input = document.createElement('input'); 
+        task.className = 'task';
+        task.appendChild(input);
         taskArea.appendChild(task)
         input.focus();
         input.addEventListener('focusout', preparePostNewTask(idProject,projectBoard));
@@ -88,9 +90,11 @@ const preparePostNewTask = (idProject, projectBoard) => {
             const props = {
                 project: idProject,
                 title: value,
-                target: e.target,
+                taskArea: e.target.parentNode.parentNode,
                 projectBoard,
                 render: renderProjectBoard,
+                eventCompleted : true,
+                eventEdit: true
             }
             postNewTask(props);
         } else{

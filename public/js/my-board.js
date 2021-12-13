@@ -6,13 +6,19 @@ const projectBoard = [];
 
 const startWindow = async () => {
     const user = await getUser();
-    renderUser(user);
-    await getProjectBoard(projectBoard);
-    if(projectBoard.length > 0){
-        renderProjects(projectBoard);
-        renderProjectBoard(projectBoard);
-    } else {
-        noProject(projectBoard);
+    console.log(user);
+    if(user != {}){
+        renderUser(user);
+        await getProjectBoard(projectBoard);
+        if(projectBoard.length > 0){
+            renderProjects(projectBoard);
+            renderProjectBoard(projectBoard);
+        } else {
+            noProject(projectBoard);
+        }
+    } else{
+        localStorage.removeItem('userToken');
+        location.href = '/';
     }
 }
 

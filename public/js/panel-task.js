@@ -61,7 +61,6 @@ const PrepareRemoveTask = (props) => {
         .then( async function(res){
             const data = await res.json();
             if(res.status === 200){
-                console.log(props);
                 removeTaskOfProjectBoard(props.task,props.projectBoard);
                 props.render(props.projectBoard,props.projectBoard[0]);
                 addNewMessage('the task was removed successfully','successful');
@@ -94,9 +93,11 @@ const prepareEventUpgradeTask = (props) => {
         })
         .then(async function(res){
             if(res.status === 201){
+                console.log(props.task);
                 props.task.title = title;
                 props.task.description = description;
                 props.render(props.projectBoard); 
+                console.log(props.projectBoard);
                 addNewMessage('the task was updated successfully','successful');
             } else {
                 const {message} = await res.json();

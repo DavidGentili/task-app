@@ -8,13 +8,16 @@ const removeTaskOfProjectBoard = (task,projectBoard) => {
     }
 }
 
+
 const addTaskToProjectBoard = (task,projectBoard) => {
     const i = projectBoard.findIndex(project => project.id === task.project)
-    const {id, title,description} = task;
+    const {id, title,description,state} = task;
     const date = (task.date) ? task.date : task.lastChangeDate
+    const newTask = {id,title,description,state,date}
     if(i !== -1){
-        projectBoard[i].tasks.push({id, title, description, date});
+        projectBoard[i].tasks.push(newTask);
     }
+    return newTask;
 }
 
 const addProjectToProjectBoard = (project, projectBoard) => {
