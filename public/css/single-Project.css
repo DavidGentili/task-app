@@ -131,6 +131,7 @@ main{
 
 .modalEditProject .panelButtons .buttonRemove:hover{
     opacity: 1;
+    cursor: pointer;
     transition-duration: .4s;
 }
 
@@ -147,6 +148,7 @@ main{
 .modalEditProject .panelButtons .buttonEdit:hover{
     background: none;
     color: #28A745;
+    cursor: pointer;
     transition-duration: .4s;
 }
 

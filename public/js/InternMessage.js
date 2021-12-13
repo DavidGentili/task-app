@@ -1,4 +1,4 @@
-import {cleanMsgPanel, addNewMessage, addInternalMessage} from './messages.js'
+import {addNewMessage} from './messages.js'
 
 const showInternalMessages = () => {
     const messages = JSON.parse(localStorage.getItem('pendingMessage'));
@@ -10,7 +10,6 @@ const showInternalMessages = () => {
     localStorage.setItem('pendingMessage',"[]");
 }
 
-// const message = {message: 'its a message', type: 'successful'}
-// addInternalMessage(message); 
+
 
 showInternalMessages();

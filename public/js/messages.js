@@ -32,7 +32,10 @@ const eventClose = (e) => {
     let element = e.target;
     while(!element.classList.contains('msg'))
         element = element.parentNode;
-    element.remove()
+    element.style.opacity = '0';
+    setTimeout(function(){
+        element.remove();
+    },1000);
 }
 
 export {

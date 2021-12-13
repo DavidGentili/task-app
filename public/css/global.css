@@ -50,6 +50,8 @@ main{
     font-weight: 300;
     box-sizing: border-box;
     z-index: 5;
+    transition-duration: .4s;
+    opacity: 1;
 }
 
 .msg button{

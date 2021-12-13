@@ -5,7 +5,7 @@ import { generateModal, removeModal } from "./modal-window.js";
 import {generateASelect} from './select.js'
 
 const getProject = async (idProject) => {
-    const url = (idProject) ? `${urlProject}?_id=${idProject}` : urlProject;
+    const url = (idProject) ? `${urlProject}?id=${idProject}` : urlProject;
     const res = await fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -33,30 +33,32 @@ const prepareModalEditProject = (project) => {
     return (e) => {
         generateModal('Update the project');
         const body = document.getElementById('bodyCard');
-        body.classList += ' modalEditProject';
-        const title = document.createElement('input');
+        const name = document.createElement('input');
         const div = document.createElement('div');
-        div.className = 'panelButtons';
+
+        body.classList += ' modalEditProject';
         const props = {
-            elements: ['actived', 'archived'],
+            elements: ['active', 'archived'],
             name: 'stateOfProject',
             selected: project.state,
         }
-        title.value = project.name;
+        name.name = 'nameOfProject'
+        name.value = project.name;
+        div.className = 'panelButtons';
+
         
-        body.appendChild(title);
+        body.appendChild(name);
         body.appendChild(generateASelect(props));
         body.appendChild(div);
-        div.appendChild(generateAButton('Remove project','','buttonRemove',prepareEventRemoveProject({project})));
-        div.appendChild(generateAButton('Update','','buttonEdit'));
+        div.appendChild(generateAButton('Remove project','','buttonRemove',prepareEventRemoveProject(project)));
+        div.appendChild(generateAButton('Update','','buttonEdit',prepareEventEditProject(project)));
         
     }
 }
 
 
-const prepareEventRemoveProject = (props) => {
+const prepareEventRemoveProject = (project) => {
     return (e) => {
-        console.log(props.project)
         fetch(urlProject,{
             method: 'DELETE',
             mode: 'cors',
@@ -64,11 +66,11 @@ const prepareEventRemoveProject = (props) => {
                 "authentication" : localStorage.getItem('userToken'),
                 "Content-Type" : "application/json"
             },
-            body: JSON.stringify({id: props.project.id})
+            body: JSON.stringify({id: project.id})
         })
         .then((res) => {
             if(res.status === 200){
-                addInternalMessage('the project was removed successfully','success');
+                addInternalMessage({message: 'the project was removed successfully', type: 'successful'});
                 location.href = '/my-board';
             } else{
                 res.json()
@@ -82,6 +84,44 @@ const prepareEventRemoveProject = (props) => {
             removeModal();
             addNewMessage(e,'error');
         })
+    }
+}
+
+const prepareEventEditProject = (project) => {
+    return (e) => {
+        const name = document.getElementsByName('nameOfProject')[0].value;
+        const state = document.getElementsByName('stateOfProject')[0].value;
+        if(name != project.name || state != project.state){
+            const {id} = project;
+            const body = {id,name,state};
+            fetch(urlProject,{
+                method: 'PUT',
+                mode: 'cors',
+                headers: {
+                    'authentication' : localStorage.getItem('userToken'),
+                    'Content-Type' : 'application-json'
+                },
+                body: JSON.stringify(body)
+            })
+            .then( async res => {
+                if(res.status === 201){
+                    addInternalMessage({message:'the project was successfully modified', type:'successful'});
+                    location.href = document.URL;
+                } else{
+                    const {message} = await res.json();
+                    removeModal();
+                    addNewMessage(message,'error');
+                }
+            })
+            .catch( e => {
+                console.log(e);
+                removeModal();
+                addNewMessage('oops we couldn´t modify the project','error');
+            })
+        } else {
+            removeModal()
+            addNewMessage('the project has not been modified','successful');
+        }
     }
 }
 

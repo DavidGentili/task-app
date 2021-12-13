@@ -4,12 +4,12 @@ const {formatResponse} = require('../formatResponse');
 
 
 const getProjectByQuery = async (query,user,res) => {
-    const acceptedArgument = ['_id','state']
+    const acceptedArgument = ['id','state']
     const keys = Object.keys(query);
     const searchArgument = {user};
     keys.forEach(elem => {
         if(acceptedArgument.includes(elem))
-            searchArgument[elem] = query[elem];
+            searchArgument[(elem === 'id') ? '_'+elem : elem] = query[elem];
     })
     if(Object.keys(searchArgument).length){
         let project = await Project.find(searchArgument).lean();
