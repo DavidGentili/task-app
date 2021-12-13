@@ -52,6 +52,7 @@ const projectsHandler = {
         const newProject = new Project({name,user})
         await newProject.save();
         req.data.id = newProject._id;
+        req.data.state = newProject.state;
         res.statusCode = 201; 
         res.end(JSON.stringify(req.data));
     },

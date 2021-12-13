@@ -67,6 +67,7 @@ aside a{
     text-decoration: none;
     color: #414141;
     margin: 10px 0;
+    margin-left: .8em;
     transition-duration: .3s;
 }
 
@@ -87,4 +88,28 @@ aside p{
     font-weight: 400;
     color: #FF6A5C;
     margin: 20px auto;
+}
+
+aside .panel-project{
+    margin: 1em 0;
+}
+
+aside .menu-panel-project{
+    display: flex;
+}
+
+aside .menu-panel-project h6{
+    font-size: .8em;
+    font-weight: 400;
+}
+
+aside .menu-panel-project button{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+aside .panelProject{
+    display: flex;
+    flex-direction: column;
 }

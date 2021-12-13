@@ -30,60 +30,99 @@ const getProjects = async () => {
     }
 } 
 
-//Renderiza una lista de proyectos en el panel denominado 'menu-board', si hay proyectos añade el boton para agregar proyectos
-const renderProjects = (projectBoard) => {
-    const aside = document.getElementById('aside-panel');
-    const menu = document.getElementById('aside-menu');
-    
-    let act = menu.nextSibling;
-    while(act){
-        const ant = act;
-        act = act.nextSibling;
-        ant.remove();
-    }
-    if(!document.getElementById('buttonAddNewProject'))
-        menu.insertBefore(generateAButton('+ add new project','buttonAddNewProject','',prepareEventInputNewProject(projectBoard)),menu.firstChild);
+const projectOfAside = (project) => {
+    const a = document.createElement('a');
+    a.href = `/project/${project.id}`;
+    a.textContent = project.name;
+    return a;
+}
 
-    projectBoard.forEach(project => {
-        const a = document.createElement('a');
-        a.href = `/project/${project.id}`;
-        a.textContent = project.name;
-        aside.appendChild(a);
+const cleanAsidePanel = () => {
+    let elem = document.getElementById('aside-menu').nextSibling;
+    while(elem){
+        const aux = elem;
+        elem = elem.nextSibling;
+        aux.remove();
+    }
+}
+
+const generateAPanelProject = (name) => {
+    const container = document.createElement('div');
+    const header = document.createElement('div');
+    const panel = document.createElement('div');
+    const button = document.createElement('button');
+    const i = document.createElement('i');
+    const h6 = document.createElement('h6');
+    
+    container.className = 'panel-project';
+    header.className = 'menu-panel-project';
+    panel.className = 'panelProject';
+    i.className = 'fas fa-chevron-down';
+    h6.textContent = name;
+    
+    container.appendChild(header);
+    container.appendChild(panel);
+    header.appendChild(button);
+    button.appendChild(i);
+    header.appendChild(h6);
+
+    button.addEventListener('click',toggleProject(i,panel));
+
+    return container;
+}
+
+const renderProjects = (projects) => {
+    cleanAsidePanel();
+    const menu = document.getElementById('aside-menu');
+    const aside = document.getElementById('aside-panel');
+    const active = generateAPanelProject('active');
+    const archived = generateAPanelProject('archived');
+    const activePanel = active.firstChild.nextSibling;
+    const archivedPanel = archived.firstChild.nextSibling;
+
+    if(!document.getElementById('buttonAddNewProject'))
+        menu.insertBefore(generateAButton('+ add new project','buttonAddNewProject','',prepareEventInputNewProject(projects)),menu.firstChild);
+
+    aside.appendChild(active);
+    aside.appendChild(archived);
+    
+
+    projects.forEach(project => {
+        if(project.state === 'active')
+            activePanel.appendChild(projectOfAside(project));
+        else
+            archivedPanel.appendChild(projectOfAside(project));
     })
 }
 
 //Renderiza la visualizacion necesaria para cuando no se tiene proyectos
-const noProject = (projectBoard) => {
+const noProject = (projects) => {
     const aside = document.getElementById('aside-panel');
     const img = document.createElement('img');
     const p = document.createElement('p');
-    const button = document.createElement('button');
 
     img.src = 'img/no-project.png';
     img.alt = 'no projects';
     p.textContent = 'you don´t have projects yet';
-    button.textContent = 'Add one';
-    button.id = 'buttonAddOneProject';
-    button.addEventListener('click',prepareEventInputNewProject(projectBoard));
 
     aside.appendChild(img);
     aside.appendChild(p);
-    aside.appendChild(button);
+    aside.appendChild(generateAButton('Add one', 'buttonAddOneProject',undefined,prepareEventInputNewProject(projects)));
 
 }
 
 //evento que renderiza una ventana modal y se encarga de asignar los elementos del header
-const prepareEventInputNewProject = (projectBoard) => {
+const prepareEventInputNewProject = (projects) => {
     return (e) => {  
         e.preventDefault();
         generateModal('Create a new project');
         const body = document.getElementById('bodyCard');        
-        bodyNewProject(body, projectBoard);
+        bodyNewProject(body, projects);
     }
 }
 
 //Renderiza los elementos de del cuerpo de la ventana modal
-const bodyNewProject = (body, projectBoard) => {
+const bodyNewProject = (body, projects) => {
     const form = document.createElement('form');
     const input = document.createElement('input');
     const button = document.createElement('button');
@@ -93,13 +132,13 @@ const bodyNewProject = (body, projectBoard) => {
     input.placeholder = 'Project name';
     input.addEventListener('keydown', (e) => {
         if(e.key === 'Enter')
-            prepareEventNewProject(projectBoard);
+            prepareEventNewProject(projects);
     })
     button.textContent = 'Add project'
-    button.addEventListener('click',prepareEventNewProject(projectBoard));
+    button.addEventListener('click',prepareEventNewProject(projects));
 
     form.appendChild(input);
-    form.appendChild(button);
+    form.appendChild(generateAButton('Add project',undefined,undefined,prepareEventNewProject(projects)));
     body.appendChild(form);
 
     input.focus();
@@ -107,11 +146,11 @@ const bodyNewProject = (body, projectBoard) => {
 }
 
 //Se encarga de hacer un post del nuevo proyecto, se añade a projectBoard y se renderizan todos los proyectos 
-const prepareEventNewProject = (projectBoard) => {
+const prepareEventNewProject = (projects) => {
     return (e) => {
          e.preventDefault();
         const url = 'http://localhost:8080/api/project'
-        const name = document.getElementsByName('nameProject')[0];
+        const name = document.getElementsByName('nameProject')[0].toUpperCase();
         const value = name.value;
         const data = {name:name.value};
         if(value && value.length > 0){
@@ -128,8 +167,8 @@ const prepareEventNewProject = (projectBoard) => {
                 if(res.status === 201){
                     removeModal();
                     const data = await res.json();
-                    addProjectToProjectBoard(data,projectBoard);
-                    renderProjects(projectBoard);
+                    addProjectToProjectBoard(data,projects);
+                    renderProjects(projects);
                 }
             })
         } else {
@@ -145,6 +184,18 @@ const openAsidePanel = (e) => {
 
 const closeAsidePanel = (e) => {
     document.getElementById('aside-panel').style.transform = '';
+}
+
+const toggleProject = (icon,panel) => {
+    return (e) => {
+        if(icon.classList.contains('fa-chevron-down')){
+            icon.className = 'fas fa-chevron-right';
+            panel.style.display = 'none';
+        } else{
+            icon.className = 'fas fa-chevron-down';
+            panel.style.display = '';
+        }
+    }
 }
 
 

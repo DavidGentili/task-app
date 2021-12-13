@@ -1,7 +1,7 @@
 import { createObjectTask, postNewTask } from "./task.js";
 
 
-const urlBoard = 'http://localhost:8080/api/board?taskState=pending&projectState=active';
+const urlBoard = 'http://localhost:8080/api/board?taskState=pending';
 
 const getProjectBoard = async (projectBoard) => {
     const authentication = localStorage.getItem('userToken');

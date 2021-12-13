@@ -2,6 +2,7 @@ import { openAsidePanel, closeAsidePanel, renderProjects, noProject } from './as
 import { addNewMessage } from './messages.js';
 import { getProject, prepareModalEditProject } from './project.js';
 import { getTask ,createObjectTask } from './task.js';
+import { getUser, renderUser } from './user.js'
 
 const idProject = document.URL.split('/').pop();
 
@@ -9,30 +10,34 @@ const idProject = document.URL.split('/').pop();
 
 
 const starWindow = async () => {
-    getProject(idProject)
-        .then( (data) => renderSingleProject(data))
-    getProject()
-        .then(data => {
-            if(data.length !== 0){
-                data.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1);
-                renderProjects(data);    
-            } else
-                noProject();
-        })
-    getTask(idProject)
-        .then( data => {
-            if(Array.isArray(data) && data.length > 0)
-                renderTaskOfTheProject(data);
-            else{
-                if(data != {}){
-                    renderTaskOfTheProject([data]);
+    const user = await getUser();
+    if(user){
+        renderUser(user);
+        getProject(idProject)
+            .then( (data) => renderSingleProject(data))
+        getProject()
+            .then(data => {
+                if(data.length !== 0){
+                    data.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1);
+                    renderProjects(data);    
                 } else
-                    addNewMessage('we can´t get the tasks', 'error');
-            }
+                    noProject();
+            })
+        getTask(idProject)
+            .then( data => {
+                if(Array.isArray(data) && data.length > 0)
+                    renderTaskOfTheProject(data);
+                else{
+                    if(data != {}){
+                        renderTaskOfTheProject([data]);
+                    } else
+                        addNewMessage('we can´t get the tasks', 'error');
+                }
+            })
+        .catch((e) => {
+            console.error(e);
         })
-    .catch((e) => {
-        console.error(e);
-    })
+    }
 }
 
 const renderSingleProject = (data) => {
