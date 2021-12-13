@@ -100,7 +100,27 @@ const prepareEventCompleted = (props) => {
     }
 }
 
+const getTask = async (project) => {
+    const url = urlTask + (project) ? `?project=${project}` : '';
+    const res = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            "authentication" : localStorage.getItem('userToken'),
+            "Content-Type" : "application/json"
+        }
+    })
+    if(res.status === 200)
+        return await res.json();
+    else{
+        const {message} = await res.json();
+        addNewMessage(message,'error')
+        return [];
+    }
+}
+
 export {
     createObjectTask,
-    postNewTask
+    postNewTask,
+    getTask
 }

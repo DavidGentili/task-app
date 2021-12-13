@@ -94,3 +94,59 @@ main{
     font-weight: 300;
 }
 
+.modalEditProject input{
+    border: none;
+    background: none;
+    border-bottom: 2px solid #414141;
+    margin: 1em .5em;
+    padding: .3em;
+    outline: none;
+    font-size: .8em;
+}
+
+.modalEditProject select{
+    background: none;
+    border: none;
+    border-bottom: solid 2px #414141;
+    margin: 1em .5em;
+    width: 40%;
+    font-size: .6em;
+}
+
+.modalEditProject .panelButtons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.modalEditProject .panelButtons .buttonRemove{
+    margin: .5em;
+    font-size: .7em;
+    background: none;
+    border: none;
+    color: #DC3545;
+    opacity: .7;
+    transition-duration: .4s;
+}
+
+.modalEditProject .panelButtons .buttonRemove:hover{
+    opacity: 1;
+    transition-duration: .4s;
+}
+
+.modalEditProject .panelButtons .buttonEdit{
+    padding: 10px 15px;
+    margin: .5em;
+    font-size: .7em;
+    background-color: #28A745;
+    border: solid 2px #28A745;
+    color: #FFFFFF;
+    transition-duration: .4s;
+}
+
+.modalEditProject .panelButtons .buttonEdit:hover{
+    background: none;
+    color: #28A745;
+    transition-duration: .4s;
+}
+

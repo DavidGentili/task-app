@@ -1,6 +1,6 @@
 const formatASingleResponse = (data) => {
     if(data['_id']){
-        data['id'] = data['_id'];
+        data['id'] = data['_id'].toString();
         delete data['_id'];
     }
     if(data['__v'])
@@ -12,7 +12,7 @@ const formatResponse = (data) => {
         data.forEach(singleData => {
             formatASingleResponse(singleData)
         })
-    } else 
+    } else
         formatASingleResponse(data);
 }
 

@@ -12,7 +12,7 @@ const getProjectByQuery = async (query,user,res) => {
             searchArgument[elem] = query[elem];
     })
     if(Object.keys(searchArgument).length){
-        let project = await Project.find(searchArgument);
+        let project = await Project.find(searchArgument).lean();
         if(Array.isArray(project) && project.length === 1)
             project = project[0];
         res.statusCode = 200;
