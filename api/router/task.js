@@ -66,7 +66,9 @@ const taskHandler = {
 
         await Task.findByIdAndUpdate(id,{title,description,project,state,lastChangeDate});
         res.statusCode = 201;
-        res.end(JSON.stringify(req.data));
+        const response = await Task.findById(id).lean();
+        formatResponse(response)
+        res.end(JSON.stringify(response));
     },
     DELETE: async (req,res) => {
         const {id} = req.data;

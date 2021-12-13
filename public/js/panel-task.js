@@ -93,6 +93,7 @@ const prepareEventUpgradeTask = (props) => {
         })
         .then(async function(res){
             if(res.status === 201){
+                props.task.date = new Date(await res.json().lastChangeDate);
                 props.task.title = title;
                 props.task.description = description;
                 props.render(props.projectBoard); 

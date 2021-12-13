@@ -150,7 +150,7 @@ const prepareEventNewProject = (projects) => {
     return (e) => {
          e.preventDefault();
         const url = 'http://localhost:8080/api/project'
-        const name = document.getElementsByName('nameProject')[0].toUpperCase();
+        const name = document.getElementsByName('nameProject')[0];
         const value = name.value;
         const data = {name:name.value};
         if(value && value.length > 0){

@@ -6,7 +6,6 @@ const projectBoard = [];
 
 const startWindow = async () => {
     const user = await getUser();
-    console.log(user);
     if(user){
         renderUser(user);
         await getProjectBoard(projectBoard);
