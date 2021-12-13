@@ -22,11 +22,11 @@ const createObjectTask = (props) => {
         action.appendChild(check);
     }
     if(props.task && props.task.title){
-        const {task, projectBoard, renderProjectBoard} = props;
+        const {task, projectBoard, render} = props;
         if(props.eventCompleted)
-            check.addEventListener('click', prepareEventCompleted({task, projectBoard, renderProjectBoard}));
+            check.addEventListener('click', prepareEventCompleted({task, projectBoard, render}));
         if(props.eventEdit)
-            edit.addEventListener('click',prepareEventEditTask({task, projectBoard, renderProjectBoard}));
+            edit.addEventListener('click',prepareEventEditTask({task, projectBoard, render}));
     }
 
     div.appendChild(title);
@@ -51,7 +51,7 @@ const postNewTask = (props) => {
                 const newProps = {
                     task: data,
                     projectBoard: props.projectBoard,
-                    renderProjectBoard: props.renderProjectBoard
+                    render: props.render,
                 }
                 props.target.nextSibling.childNodes[1].addEventListener('click',prepareEventCompleted(newProps));
                 props.target.nextSibling.childNodes[0].addEventListener('click',prepareEventEditTask(newProps));
@@ -101,7 +101,7 @@ const prepareEventCompleted = (props) => {
 }
 
 const getTask = async (project) => {
-    const url = urlTask + (project) ? `?project=${project}` : '';
+    const url = urlTask + ((project) ? `?project=${project}` : '');
     const res = await fetch(url, {
         method: 'GET',
         mode: 'cors',

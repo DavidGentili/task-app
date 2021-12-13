@@ -1,6 +1,6 @@
 const Project = require('../models/Project');
 const Task = require('../models/Task');
-const {formatResponse} = require('../helpers');
+const {formatResponse, formatQuery} = require('../helpers');
 
 
 const getProjectByQuery = async (query,user,res) => {

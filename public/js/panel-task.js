@@ -8,12 +8,11 @@ const prepareEventEditTask = (props) => {
     return (e) => {
         const {task} = props;
         openPanelTask();
-        const date = new Date(task.date);
+        const date = new Date(task.date || task.lastChangeDate);
         document.getElementById('titleOfTheTask').value = task.title;
         document.getElementById('descriptionOfTheTask').value = (task.description != undefined) ? task.description : '';
         document.getElementById('DateOfTheTask').textContent = `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`;
-        refreshPanelTaskActions(props);
-        
+        refreshPanelTaskActions(props);  
     }
 }
 
@@ -62,8 +61,9 @@ const PrepareRemoveTask = (props) => {
         .then( async function(res){
             const data = await res.json();
             if(res.status === 200){
+                console.log(props);
                 removeTaskOfProjectBoard(props.task,props.projectBoard);
-                props.renderProjectBoard(props.projectBoard);
+                props.render(props.projectBoard,props.projectBoard[0]);
                 addNewMessage('the task was removed successfully','successful');
             } else{
                 cleanMsgPanel();
@@ -71,6 +71,7 @@ const PrepareRemoveTask = (props) => {
             }
         })
         .catch(function(e){
+            console.log(e);
             cleanMsgPanel();
             addNewMessage('task could not be deleted', 'error');
         })
@@ -95,7 +96,7 @@ const prepareEventUpgradeTask = (props) => {
             if(res.status === 201){
                 props.task.title = title;
                 props.task.description = description;
-                props.renderProjectBoard(props.projectBoard); 
+                props.render(props.projectBoard); 
                 addNewMessage('the task was updated successfully','successful');
             } else {
                 const {message} = await res.json();

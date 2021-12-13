@@ -36,9 +36,10 @@ const taskHandler = {
         if(curretProject){
             const newTask = new Task({title,description,project,user});
             await newTask.save();
-            req.data.id = newTask._id.toString()
+            const response = await Task.findById(newTask.id).lean();
+            formatResponse(response);
             res.statusCode = 201;
-            res.end(JSON.stringify(req.data));
+            res.end(JSON.stringify(response));
         } else{
             throw {message: 'non-existent project', status: 403};
         }

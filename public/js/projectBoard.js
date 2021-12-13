@@ -8,27 +8,23 @@ const removeTaskOfProjectBoard = (task,projectBoard) => {
     }
 }
 
-const upgradeTaskOfProjectBoard = (task, projectBoard) => {
-    const i = projectBoard.findIndex(project => {
-        return project.tasks.some(current => current.id === task.id);
-    });
-    if(i !== -1){
-        const j = projectBoard[i].tasks.findIndex(current => current.id === task.id);
-        if(j !== -1)
-            projectBoard[i].tasks[j] = task;
-    }
-}
-
 const addTaskToProjectBoard = (task,projectBoard) => {
     const i = projectBoard.findIndex(project => project.id === task.project)
-    const {id, title,description,date} = task;
+    const {id, title,description} = task;
+    const date = (task.date) ? task.date : task.lastChangeDate
     if(i !== -1){
         projectBoard[i].tasks.push({id, title, description, date});
     }
 }
 
 const addProjectToProjectBoard = (project, projectBoard) => {
-    projectBoard.push(project);
+    projectBoard.push({
+        id: project.id,
+        name: project.name,
+        state: project.state,
+        date: project.lastChangeDate,
+        tasks: []
+    });
     sortProjectBoardByName(projectBoard);
 }
 
@@ -36,9 +32,18 @@ const sortProjectBoardByName = (projectBoard) => {
     projectBoard.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1);
 }
 
+const generateProjectBoard = (projects,tasks) => {
+    const projectBoard = [];
+    projects.forEach(project => addProjectToProjectBoard(project,projectBoard));
+    tasks.forEach(task => addTaskToProjectBoard(task,projectBoard));
+    sortProjectBoardByName(projectBoard);
+    return projectBoard;
+}
+
 export {
     removeTaskOfProjectBoard,
     addTaskToProjectBoard,
     addProjectToProjectBoard,
-    sortProjectBoardByName
+    sortProjectBoardByName,
+    generateProjectBoard
 }
