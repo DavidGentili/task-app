@@ -1,34 +1,10 @@
 import { generateModal, removeModal } from "./modal-window.js";
 import { addProjectToProjectBoard } from "./projectBoard.js";
-import {generateAButton} from './button.js';
+import { generateAButton } from './button.js';
+import { getInstance } from './request.js';
+import { unauthorizedUser } from './user.js';
+import { addNewMessage } from "./messages.js";
 
-// obtiene los proyectos del usuario desde la API. Retorna una lista de proyectos
-const getProjects = async () => {
-    const url = 'http://localhost:8080/api/project?state=active';
-    const authentication = localStorage.getItem('userToken');
-    try{
-        const res = await fetch(url, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                "authentication" : authentication,
-                "Content-Type" : "application/json"  
-            }
-        })
-        const data = await res.json();
-        const projects = data.map(project => {
-            return {
-                id: project._id,
-                name: project.name,
-                state: project.state
-            };
-        })
-        projects.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1 );
-        return projects;
-    }catch(e){
-        return [];
-    }
-} 
 
 const projectOfAside = (project) => {
     const a = document.createElement('a');
@@ -148,32 +124,31 @@ const bodyNewProject = (body, projects) => {
 //Se encarga de hacer un post del nuevo proyecto, se añade a projectBoard y se renderizan todos los proyectos 
 const prepareEventNewProject = (projects) => {
     return (e) => {
-         e.preventDefault();
-        const url = 'http://localhost:8080/api/project'
-        const name = document.getElementsByName('nameProject')[0];
-        const value = name.value;
-        const data = {name:name.value};
-        if(value && value.length > 0){
-            fetch(url, {
-                method: 'POST',
-                mode: 'cors',
-                headers:{
-                    "authentication" : localStorage.getItem('userToken'),
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify(data)
+        e.preventDefault();
+        const inputName = document.getElementsByName('nameProject')[0];
+        const name = inputName.value;
+        if(name && name.length > 0){
+            removeModal();
+            getInstance().post('project', {
+                name
             })
-            .then(async (res) => {
+            .then((res) => {
                 if(res.status === 201){
-                    removeModal();
-                    const data = await res.json();
+                    const data = res.data;
                     addProjectToProjectBoard(data,projects);
                     renderProjects(projects);
                 }
             })
+            .catch((e) => {
+                const res = e.response;
+                if(res.status === 403)
+                    unauthorizedUser();
+                else
+                    addNewMessage('opps, we are having problems with the server try again later','error');
+            })
         } else {
-            name.placeholder = 'Please insert a name project';
-            name.style.borderBottom = '2px solid #DC3545'
+            inputName.placeholder = 'Please insert a name project';
+            inputName.style.borderBottom = '2px solid #DC3545'
         }
     }
 }

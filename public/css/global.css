@@ -68,6 +68,10 @@ main{
     background-color: #28A745A0;
 }
 
+.msg-warning{
+    background-color: #D39E00A0;
+}
+
 .modal-window{
     position: absolute;
     top: 0;

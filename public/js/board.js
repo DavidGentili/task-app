@@ -1,20 +1,19 @@
 import { createObjectTask, postNewTask } from "./task.js";
-
-
-const urlBoard = 'http://localhost:8080/api/board?taskState=pending';
+import { getInstance } from "./request.js";
+import { addNewMessage } from "./messages.js";
+import { unauthorizedUser } from "./user.js";
 
 const getProjectBoard = async (projectBoard) => {
-    const authentication = localStorage.getItem('userToken');
-    const res = await fetch(urlBoard, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-            "authentication" : authentication,
-            "Content-Type" : "application/json"
-        }
-    });
-    const data = await res.json();
-    refreshProjectBoard(data,projectBoard);
+    try{
+        const {data} = await getInstance().get('board?taskState=pending');
+        refreshProjectBoard(data,projectBoard);
+    } catch(e){
+        if(e.response.status === 403)
+            unauthorizedUser();
+        else
+            addNewMessage('opps, we are having problems with the server try again later','error');
+    }
+    
 }
 
 const refreshProjectBoard = (data,projectBoard) => {

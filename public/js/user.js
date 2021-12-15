@@ -1,3 +1,5 @@
+import { addInternalMessage } from './messages.js'
+
 const url = 'http://localhost:8080/api/users/auth';
 const authentication = localStorage.getItem('userToken');
 
@@ -25,7 +27,14 @@ const renderUser = (user) => {
     a.textContent = user.name;
 }
 
+const unauthorizedUser = () => {
+    addInternalMessage({message: 'Your session has expired', type: 'warning'});
+    localStorage.removeItem('userToken');
+    location.href = '/';
+}
+
 export {
     getUser,
-    renderUser
+    renderUser,
+    unauthorizedUser
 }

@@ -5,7 +5,9 @@ const removeTaskOfProjectBoard = (task,projectBoard) => {
     })
     if(i !== -1){
         projectBoard[i].tasks = projectBoard[i].tasks.filter(current => current.id != task.id);
-    }
+        return projectBoard[i].tasks.length;
+    } else 
+        return -1
 }
 
 

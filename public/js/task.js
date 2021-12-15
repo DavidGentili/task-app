@@ -1,8 +1,10 @@
 import { addNewMessage, cleanMsgPanel } from "./messages.js";
 import { removeTaskOfProjectBoard, addTaskToProjectBoard } from './projectBoard.js';
 import { prepareEventEditTask } from "./panel-task.js";
-const urlTask = 'http://localhost:8080/api/task';
+import { getInstance } from "./request.js";
+import { unauthorizedUser } from "./user.js";
 
+// props = {task, projectBoard, render, eventEdit, eventCompleted, showState}
 const createObjectTask = (props) => {
     const div = document.createElement('div');
     const title = document.createElement('input');
@@ -39,91 +41,84 @@ const createObjectTask = (props) => {
     return div;   
 }
 
+const generateNewProps = function (props, task){
+    this.task = task;
+    this.projectBoard = props.projectBoard
+    this.render = props.render,
+    this.eventEdit = (props.eventEdit) ? props.eventEdit : undefined,
+    this.eventCompleted = (props.eventCompleted) ? props.eventCompleted : undefined,
+    this.showState = (props.showState) ? props.showState : undefined
+}
+
+// props = {task, projectBoard, render, eventEdit, eventCompleted, showState}
 const postNewTask = (props) => {
-    const data = {project: props.project, title: props.title};
-    fetch(urlTask, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            "authentication" : localStorage.getItem('userToken'),
-            "Content-Type" : "application/json"
-        },
-        body: JSON.stringify(data)
-    }).then(function(res){
+    const {title, project} = props;
+    getInstance().post('task', {title, project})
+    .then( (res) => {
         if(res.status === 201){
-            res.json().then(function(data){
-                const newTask = addTaskToProjectBoard(data,props.projectBoard);
-                const newProps = {
-                    task: newTask,
-                    projectBoard: props.projectBoard,
-                    render: props.render,
-                    eventEdit: (props.eventEdit) ? props.eventEdit : undefined,
-                    eventCompleted: (props.eventCompleted) ? props.eventCompleted : undefined,
-                    showState : (props.showState) ? props.showState : undefined
-                }
-                props.taskArea.lastChild.remove();
-                props.taskArea.appendChild(createObjectTask(newProps));
-            })
+            const {data} = res
+            const newTask = addTaskToProjectBoard(data,props.projectBoard);
+            const newProps = new generateNewProps(props,newTask);
+            props.taskArea.lastChild.remove();
+            props.taskArea.appendChild(createObjectTask(newProps));
         } else {
-            props.target.parentNode.remove();
-            addNewMessage('we can´t create the new task', 'error');
+            props.taskArea.lastChild.remove();
+            addNewMessage('opps, we are having problems with the server, try again later','error');
         }
     })
-    .catch(function(e){
-        console.error(e)
-        input.parentNode.remove();
-        addNewMessage('we can´t create the new task', 'error');
+    .catch( (e) => {
+        props.taskArea.lastChild.remove();
+        if(e.response.status === 403)
+            unauthorizedUser();
+        else
+            addNewMessage('opps, we are having problems with the server, try again later','error');
     })
 }
 
+// props = {task, projectBoard, render}
 const prepareEventCompleted = (props) => {
     return function(e){
         const {task} = props
         const data = {id: task.id, state: 'finished'}
-        fetch(urlTask, {
-            method: 'PUT',
-            mode: 'cors',
-            headers: {
-                "authentication" : localStorage.getItem('userToken'),
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-        .then(function(res){
+        getInstance().put('task',data)
+        .then( (res) => {
             if(res.status === 201){
                 const {projectBoard} = props;
                 const i = removeTaskOfProjectBoard(task,projectBoard);
                 if(i === 0)
-                    props.renderProjectBoard();
+                    props.render(projectBoard);
                 else
                     e.target.parentNode.parentNode.remove();
             } else
-                addNewMessage('we can´t complete the task','error');
+                addNewMessage('opps, we are having problems with the server, try again later','error');
         })
-        .catch(function(error){
-            console.log(error)
-            addNewMessage('we can´t complete the task','error');
+        .catch( (e) => {
+            if(e.response.status === 403)
+                unauthorizedUser()
+            else
+            addNewMessage('opps, we are having problems with the server, try again later','error');
         })
     }
 }
 
 const getTask = async (project) => {
-    const url = urlTask + ((project) ? `?project=${project}` : '');
-    const res = await fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-            "authentication" : localStorage.getItem('userToken'),
-            "Content-Type" : "application/json"
+    try{
+        const urlTask = (project) ? `task?project=${project}` : 'task';  
+        const res = await getInstance().get(urlTask)
+        if(res.status === 200)
+            return res.data;
+        else{
+            const {message} = await res.json();
+            addNewMessage(message,'error')
+            return [];
         }
-    })
-    if(res.status === 200)
-        return await res.json();
-    else{
-        const {message} = await res.json();
-        addNewMessage(message,'error')
-        return [];
+    }catch(e){
+        if(e.response.status === 403)
+            unauthorizedUser();
+        else
+            addNewMessage('opps, we are having problems with the server, try again later','error');
     }
+    
 }
 
 export {
