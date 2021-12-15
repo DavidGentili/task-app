@@ -15,18 +15,22 @@ const server = http.createServer((req,res) =>{
     })
 
     req.on('end', function(){
-        const request = prepareRequest(req,data);
-
-
+        const request = prepareRequest(req,data);    
+        
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', '*');
-        res.setHeader('Access-Control-Allow-Allow-Headers', '*');
+        res.setHeader('Access-Control-Allow-Headers', '*');
         
-        if(request.path[0] && request.path[0] === 'api'){
-            apiHandler(request,res);
-        } else {
-            publicHandler(request,res);
+        if(req.method.toUpperCase() === 'OPTIONS'){            
+            res.statusCode = 200;
+            res.end('');
+        } else{
+            if(request.path[0] && request.path[0] === 'api')
+                apiHandler(request,res);
+            else
+                publicHandler(request,res);
         }
+        
     })
 })
 
