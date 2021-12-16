@@ -86,36 +86,33 @@ const prepareEventEditProject = (project) => {
     return (e) => {
         const name = document.getElementsByName('nameOfProject')[0].value;
         const state = document.getElementsByName('stateOfProject')[0].value;
-        if(name != project.name || state != project.state){
+        if(name.length > 0 && (name != project.name || state != project.state)){
             const {id} = project;
             const body = {id,name,state};
-            fetch(urlProject,{
-                method: 'PUT',
-                mode: 'cors',
-                headers: {
-                    'authentication' : localStorage.getItem('userToken'),
-                    'Content-Type' : 'application-json'
-                },
-                body: JSON.stringify(body)
-            })
-            .then( async res => {
+            getInstance().put('project', {id,name,state})
+            .then( res => {
                 if(res.status === 201){
                     addInternalMessage({message:'the project was successfully modified', type:'successful'});
                     location.href = document.URL;
                 } else{
-                    const {message} = await res.json();
                     removeModal();
-                    addNewMessage(message,'error');
+                    addNewMessage(res.datamessage,'error');
                 }
             })
             .catch( e => {
-                console.log(e);
-                removeModal();
-                addNewMessage('oops we couldn´t modify the project','error');
+                if(e.response && e.response.status === 403)
+                    unauthorizedUser()
+                else{
+                    removeModal();
+                    addNewMessage('opps, we are having problems with the server, try again later','error');
+                }
             })
         } else {
             removeModal()
-            addNewMessage('the project has not been modified','successful');
+            if(name.length > 0)
+                addNewMessage('the project has not been modified','successful');
+            else
+                addNewMessage('you must enter a name for the project', 'error');
         }
     }
 }

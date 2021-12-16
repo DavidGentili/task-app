@@ -1,0 +1,33 @@
+main{
+    align-items: center;
+}
+
+main .information{
+    margin-left: 3em;
+}
+
+main img{
+    width: 50%;
+}
+
+main .information h2{
+    margin: 1em 0;
+    color: #056571;
+}
+
+main .information a{
+    color: #FFFFFF;
+    background-color: #FF6A5C;
+    border: solid 2px #FF6A5C;
+    font-size: .8em;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition-duration: .4s;
+}
+
+main .information a:hover{
+    background: none;
+    color: #FF6A5C;
+    transition-duration: .4s;
+}

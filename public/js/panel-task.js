@@ -101,7 +101,7 @@ const prepareEventUpgradeTask = (props) => {
                     addNewMessage('opps, we are having problems with the server, try again later','error');
             })
         } else {
-            if(title > 0){
+            if(title.length > 0){
                 closePanelTask()
                 addNewMessage('the task has been saved without modifications','successful');
             } else {
