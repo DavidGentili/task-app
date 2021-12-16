@@ -1,23 +1,23 @@
-const urlProject = 'http://localhost:8080/Api/project';
 import { generateAButton } from "./button.js";
 import { addInternalMessage, addNewMessage } from "./messages.js";
 import { generateModal, removeModal } from "./modal-window.js";
+import { getInstance } from "./request.js";
 import {generateASelect} from './select.js'
+import { unauthorizedUser } from "./user.js";
 
 const getProject = async (idProject) => {
-    const url = (idProject) ? `${urlProject}?id=${idProject}` : urlProject;
-    const res = await fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-            "authentication" : localStorage.getItem('userToken'),
-            "Content-Type" : "application/json"
-        }
-    })
-    if(res.status === 200)
-        return await res.json();
-    else{
-        const {message} = await res.json();
+    const urlProject = (idProject) ? `project?id=${idProject}` : 'project';
+    try{
+        const res = await getInstance().get(urlProject)
+        if(res.status === 200)
+            return res.data;
+        else
+            addNewMessage(res.data.message,'error');            
+    } catch(e){
+        if(e.response.status === 403)
+            unauthorizedUser();
+        else
+            addNewMessage('opps, we are having problems with the server, try again later','error');
     }
 
 }
@@ -56,33 +56,28 @@ const prepareModalEditProject = (project) => {
     }
 }
 
-
 const prepareEventRemoveProject = (project) => {
     return (e) => {
-        fetch(urlProject,{
-            method: 'DELETE',
-            mode: 'cors',
-            headers: {
-                "authentication" : localStorage.getItem('userToken'),
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify({id: project.id})
+        getInstance().delete('project', {
+            data: {id: project.id}
         })
         .then((res) => {
             if(res.status === 200){
                 addInternalMessage({message: 'the project was removed successfully', type: 'successful'});
                 location.href = '/my-board';
             } else{
-                res.json()
-                .then(data => {
-                    removeModal();
-                    addNewMessage(data.message,'error');
-                });
+                removeModal();
+                addNewMessage(res.data.message,'error');
             }
         })
         .catch((e) => {
+            console.log(e)
+            console.log(e.response);
             removeModal();
-            addNewMessage(e,'error');
+            if(e.response.status === 403)
+                unauthorizedUser();
+            else
+                addNewMessage('opps, we are having problems with the server, try again later','error');
         })
     }
 }

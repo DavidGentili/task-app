@@ -1,6 +1,8 @@
-import { removeTaskOfProjectBoard } from "./projectBoard.js";
+import { removeTaskOfProjectBoard, getTaskOfProjectBoard } from "./projectBoard.js";
 import {cleanMsgPanel, addNewMessage} from './messages.js'
+import { getInstance } from "./request.js";
 import { generateAButton } from "./button.js";
+import { unauthorizedUser } from "./user.js";
 const urlTask = 'http://localhost:8080/api/task';
 
 
@@ -49,20 +51,14 @@ const refreshPanelTaskActions = (props) => {
 const PrepareRemoveTask = (props) => {
     return (e) => {
         closePanelTask();
-        fetch(urlTask, {
-            method: 'DELETE',
-            mode: 'cors',
-            headers: {
-                "authentication" : localStorage.getItem('userToken'),
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify({id: props.task.id})
+        getInstance().delete('task',{
+            data: {id: props.task.id}
         })
-        .then( async function(res){
-            const data = await res.json();
+        .then(function(res){
+            const {data} = res;
             if(res.status === 200){
                 removeTaskOfProjectBoard(props.task,props.projectBoard);
-                props.render(props.projectBoard,props.projectBoard[0]);
+                props.render(props.projectBoard);
                 addNewMessage('the task was removed successfully','successful');
             } else{
                 cleanMsgPanel();
@@ -70,9 +66,10 @@ const PrepareRemoveTask = (props) => {
             }
         })
         .catch(function(e){
-            console.log(e);
-            cleanMsgPanel();
-            addNewMessage('task could not be deleted', 'error');
+            if(e.response.status === 403)
+                unauthorizedUser();
+            else
+                addNewMessage('opps, we are having problems with the server, try again later','error');
         })
     }
 }
@@ -82,31 +79,35 @@ const prepareEventUpgradeTask = (props) => {
         const title = document.getElementById('titleOfTheTask').value;
         const description = document.getElementById('descriptionOfTheTask').value;
         closePanelTask();
-        fetch(urlTask, {
-            method: 'PUT',
-            mode: 'cors',
-            headers: {
-                "authentication" : localStorage.getItem('userToken'),
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify({id: props.task.id, title, description})
-        })
-        .then(async function(res){
-            if(res.status === 201){
-                props.task.date = new Date(await res.json().lastChangeDate);
-                props.task.title = title;
-                props.task.description = description;
-                props.render(props.projectBoard); 
-                addNewMessage('the task was updated successfully','successful');
+        if(title.length > 0 && title != props.task.title && description != props.task.description){
+            getInstance().put('task',{id: props.task.id, title, description})
+            .then( (res) => {
+                if(res.status === 201){
+                    const {task,projectBoard} = props;
+                    const currentTask = getTaskOfProjectBoard(task.id,projectBoard);
+                    currentTask.date = new Date(res.data.lastChangeDate);
+                    currentTask.title = title;
+                    currentTask.description = description;
+                    props.render(props.projectBoard); 
+                    addNewMessage('the task was updated successfully','successful');
+                } else
+                    addNewMessage(res.data.message,'error');
+            })
+            .catch( (e) => {
+                console.log(e)
+                if(e.response && e.response.status === 403)
+                    unauthorizedUser();
+                else
+                    addNewMessage('opps, we are having problems with the server, try again later','error');
+            })
+        } else {
+            if(title > 0){
+                closePanelTask()
+                addNewMessage('the task has been saved without modifications','successful');
             } else {
-                const {message} = await res.json();
-                addNewMessage(message,'error');
+                addNewMessage('you must enter a title', 'error');
             }
-        })
-        .catch(function(error){
-            console.log(error);
-            addNewMessage('task could not be upgrade', 'error');
-        })
+        }
     }
 }
 

@@ -32,7 +32,7 @@ const starWindow = async () => {
                 renderTaskOfTheProject(projectBoard);
             })
         .catch((e) => {
-            console.log(e);
+            addNewMessage('opps, we are having problems with the server, try again later','error');
         })
     } else{
         localStorage.removeItem('userToken');

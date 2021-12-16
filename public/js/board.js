@@ -11,7 +11,7 @@ const getProjectBoard = async (projectBoard) => {
         if(e.response.status === 403)
             unauthorizedUser();
         else
-            addNewMessage('opps, we are having problems with the server try again later','error');
+            addNewMessage('opps, we are having problems with the server, try again later','error');
     }
     
 }

@@ -10,6 +10,21 @@ const removeTaskOfProjectBoard = (task,projectBoard) => {
         return -1
 }
 
+const getTaskOfProjectBoard = (id, projectBoard) => {
+    let task = undefined;
+    let i = 0;
+    while(!task && i < projectBoard.length){
+        let j = 0;
+        while(!task && j < projectBoard[i].tasks.length){
+            if( projectBoard[i].tasks[j].id === id)
+                task = projectBoard[i].tasks[j]
+            j++
+        }
+        i++
+    }
+    return task;
+}
+
 
 const addTaskToProjectBoard = (task,projectBoard) => {
     const i = projectBoard.findIndex(project => project.id === task.project)
@@ -50,5 +65,7 @@ export {
     addTaskToProjectBoard,
     addProjectToProjectBoard,
     sortProjectBoardByName,
-    generateProjectBoard
+    generateProjectBoard,
+    getTaskOfProjectBoard
+    
 }
