@@ -6,6 +6,8 @@ const {formatResponse, formatQuery} = require('../helpers');
 const getProjectByQuery = async (query,user,res) => {
     const acceptedArgument = ['id','state']
     const searchArgument = formatQuery(query,user,acceptedArgument);
+    if(searchArgument._id && searchArgument._id.length !== 24)
+        throw {message: 'The id is incorrect', status: 400};
     if(Object.keys(searchArgument).length){
         let project = await Project.find(searchArgument).lean();
         if(Array.isArray(project) && project.length === 1)
@@ -32,7 +34,7 @@ const projectsHandler = {
     GET: async (req,res) => {
         const {user,query} = req;
         if(Object.keys(query).length > 0){
-           getProjectByQuery(query,user,res);       
+           await getProjectByQuery(query,user,res);       
         } else{
             const projects = await Project.find({user}).lean();
             const response = 

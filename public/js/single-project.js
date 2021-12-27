@@ -1,4 +1,5 @@
 import { openAsidePanel, closeAsidePanel, renderProjects, noProject } from './aside-panel.js'
+import { addNewMessage } from './messages.js';
 import { getProject, prepareModalEditProject } from './project.js';
 import { generateProjectBoard } from './projectBoard.js';
 import { getTask, createObjectTask, postNewTask } from './task.js';
@@ -13,27 +14,33 @@ const starWindow = async () => {
     const user = await getUser();
     if(user){
         renderUser(user);
-        const project = await getProject(idProject)
-        renderSingleProject(project)
-        getProject()
-            .then(data => {
-                if(data.length !== 0){
-                    data.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1);
-                    renderProjects(data);    
-                } else
-                    noProject();
+        const project = await getProject(idProject);
+        console.log(project)
+        if(!Array.isArray(project)){
+            renderSingleProject(project)
+            getProject()
+                .then(data => {
+                    if(data.length !== 0){
+                        data.sort((a,b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 : 1);
+                        renderProjects(data);    
+                    } else
+                        noProject();
+                })
+            getTask(idProject)
+                .then( data => {
+                    if(!Array.isArray(data))
+                        data = [data];
+                    const aux = generateProjectBoard([project],data);
+                    aux.forEach(project => projectBoard.push(project));
+                    renderTaskOfTheProject(projectBoard);
+                })
+            .catch((e) => {
+                addNewMessage('opps, we are having problems with the server, try again later','error');
             })
-        getTask(idProject)
-            .then( data => {
-                if(!Array.isArray(data))
-                    data = [data];
-                const aux = generateProjectBoard([project],data);
-                aux.forEach(project => projectBoard.push(project));
-                renderTaskOfTheProject(projectBoard);
-            })
-        .catch((e) => {
-            addNewMessage('opps, we are having problems with the server, try again later','error');
-        })
+        } else {
+            addNewMessage('the project you are looking for does not exist', 'error')
+        }
+        
     } else{
         localStorage.removeItem('userToken');
         location.href = '/'

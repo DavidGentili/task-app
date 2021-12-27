@@ -10,6 +10,7 @@ const htmlHandler = async (req,res) => {
         res.end(fileContent)
     } catch(e){
         const fileContent = fs.readFileSync('./public/404.html');
+        res.statusCode = 200;
         res.end(fileContent)
     }
 
