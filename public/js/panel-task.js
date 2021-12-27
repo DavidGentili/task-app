@@ -79,7 +79,7 @@ const prepareEventUpgradeTask = (props) => {
         const title = document.getElementById('titleOfTheTask').value;
         const description = document.getElementById('descriptionOfTheTask').value;
         closePanelTask();
-        if(title.length > 0 && title != props.task.title && description != props.task.description){
+        if(title.length > 0 && (title != props.task.title || description != props.task.description)){
             getInstance().put('task',{id: props.task.id, title, description})
             .then( (res) => {
                 if(res.status === 201){
