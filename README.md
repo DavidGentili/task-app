@@ -20,5 +20,7 @@ En cuanto a las peticiones HTTP, una parte del sistema implementa la funcionalid
 
 ###### se utilizaron las siguiente dependecias:
 [bcryptjs](https://www.npmjs.com/package/bcryptjs)
+
 [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+
 [mongoose](https://www.npmjs.com/package/mongoose)
