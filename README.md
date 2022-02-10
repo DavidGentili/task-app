@@ -30,6 +30,8 @@ En cuanto a las peticiones HTTP, una parte del sistema implementa la funcionalid
 ###### Project screen
 ![Project screen](/screen/img-project.jpg)
 
+
+
 ###### se utilizaron las siguiente dependecias:
 [bcryptjs](https://www.npmjs.com/package/bcryptjs)
 

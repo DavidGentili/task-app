@@ -71,8 +71,6 @@ const prepareEventRemoveProject = (project) => {
             }
         })
         .catch((e) => {
-            console.log(e)
-            console.log(e.response);
             removeModal();
             if(e.response.status === 403)
                 unauthorizedUser();
