@@ -18,6 +18,18 @@ Se implementaron paginas estaticas HTML con los componentes contenedores y la in
 
 En cuanto a las peticiones HTTP, una parte del sistema implementa la funcionalidad nativa del navegador Fetch, con la intencion de probar su utilidad, y otra parte del sistema utiliza peticiones con el paquete AXIOS mediante una CDN.
 
+###### Main screen
+![Main screen](/screen/img-inicio.jpg)
+
+###### Login screen
+![Login screen](/screen/img-login.jpg)
+
+###### Main-Panel screen
+![Main-Panel screen](/screen/img-panel.jpg)
+
+###### Project screen
+![Project screen](/screen/img-project.jpg)
+
 ###### se utilizaron las siguiente dependecias:
 [bcryptjs](https://www.npmjs.com/package/bcryptjs)
 
