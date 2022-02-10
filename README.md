@@ -1,5 +1,9 @@
 # Task App
 
+###### Main screen
+![Main screen](/screen/img-inicio.jpg)
+
+
 ## Hi, I made a task application in Javascript
 
 Una aplicacion de tareas con la capacidad de registrar usuarios, cada usuario puede crear sus proyectos y cada proyecto puede almacenar tareas.
@@ -18,8 +22,7 @@ Se implementaron paginas estaticas HTML con los componentes contenedores y la in
 
 En cuanto a las peticiones HTTP, una parte del sistema implementa la funcionalidad nativa del navegador Fetch, con la intencion de probar su utilidad, y otra parte del sistema utiliza peticiones con el paquete AXIOS mediante una CDN.
 
-###### Main screen
-![Main screen](/screen/img-inicio.jpg)
+### Images
 
 ###### Login screen
 ![Login screen](/screen/img-login.jpg)
