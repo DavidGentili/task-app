@@ -1,10 +1,9 @@
 # Task App
 
-###### Main screen
 ![Main screen](/screen/img-inicio.jpg)
 
 
-## Hi, I made a task application in Javascript
+## Hi , I made a task application in Javascript
 
 Una aplicacion de tareas con la capacidad de registrar usuarios, cada usuario puede crear sus proyectos y cada proyecto puede almacenar tareas.
 
