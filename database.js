@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/task-app')
+mongoose.connect('mongodb+srv://davidGentili:wdyMYHHOPYc8faTJ@cluster-task-app.5up0n.mongodb.net/Task-App?retryWrites=true&w=majority')
 .then( () => {
     console.log('Database connected'); 
 })
