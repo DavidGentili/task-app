@@ -1,4 +1,6 @@
-import { addNewMessage } from './messages.js'
+import message from './messages.js'
+
+const { addNewMessage } = message;
 
 const showInternalMessages = () => {
     const messages = JSON.parse(localStorage.getItem('pendingMessage'));
