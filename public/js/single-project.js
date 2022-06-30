@@ -1,7 +1,7 @@
 import { openAsidePanel, closeAsidePanel, renderProjects, noProject } from './aside-panel.js'
 import { addNewMessage } from './messages.js';
 import { getProject, prepareModalEditProject } from './project.js';
-import { generateProjectBoard } from './projectBoard.js';
+import { generateProjectBoard } from './project-board.js';
 import { getTask, createObjectTask, postNewTask } from './task.js';
 import { getUser, renderUser } from './user.js'
 

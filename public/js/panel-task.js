@@ -1,4 +1,4 @@
-import { removeTaskOfProjectBoard, getTaskOfProjectBoard } from "./projectBoard.js";
+import { removeTaskOfProjectBoard, getTaskOfProjectBoard } from "./project-board.js";
 import {cleanMsgPanel, addNewMessage} from './messages.js'
 import { getInstance } from "./request.js";
 import { generateAButton } from "./button.js";

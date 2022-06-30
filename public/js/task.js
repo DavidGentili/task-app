@@ -1,5 +1,5 @@
 import { addNewMessage, cleanMsgPanel } from "./messages.js";
-import { removeTaskOfProjectBoard, addTaskToProjectBoard } from './projectBoard.js';
+import { removeTaskOfProjectBoard, addTaskToProjectBoard } from './project-board.js';
 import { prepareEventEditTask } from "./panel-task.js";
 import { getInstance } from "./request.js";
 import { unauthorizedUser } from "./user.js";

@@ -1,5 +1,5 @@
 import { generateModal, removeModal } from "./modal-window.js";
-import { addProjectToProjectBoard } from "./projectBoard.js";
+import { addProjectToProjectBoard } from "./project-board.js";
 import { generateAButton } from './button.js';
 import { getInstance } from './request.js';
 import { unauthorizedUser } from './user.js';
