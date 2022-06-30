@@ -17,6 +17,7 @@ const getProjectBoard = async (projectBoard) => {
 }
 
 const refreshProjectBoard = (data,projectBoard) => {
+    console.log(projectBoard)
     while(projectBoard.length != 0)
         projectBoard.pop();
     if(Array.isArray(data) && data.length > 0){
