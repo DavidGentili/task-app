@@ -3,7 +3,7 @@
 ![Main screen](/screen/img-inicio.jpg)
 
 
-![pruebalo!](https://david-gentili-task-app.herokuapp.com/)
+[[**PRUEBALO AHORA**](https://david-gentili-task-app.herokuapp.com/)]
 
 
 ## Hi :wave:, I made a task application in Javascript
