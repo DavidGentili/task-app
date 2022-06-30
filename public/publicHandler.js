@@ -47,7 +47,6 @@ const resourceHandler = async (req,res) => {
 
 
 const publicHandler = (req,res) => {
-    console.log(req.path[0] === 'js' ? req: '')
     const resource = ['css','js','img'];
     const path = req.path[0];
     if(resource.includes(path))

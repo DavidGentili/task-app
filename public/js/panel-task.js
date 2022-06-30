@@ -94,7 +94,6 @@ const prepareEventUpgradeTask = (props) => {
                     addNewMessage(res.data.message,'error');
             })
             .catch( (e) => {
-                console.log(e)
                 if(e.response && e.response.status === 403)
                     unauthorizedUser();
                 else

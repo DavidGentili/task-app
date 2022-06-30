@@ -28,7 +28,6 @@ const login = (data) => {
     })
     .then(async function(res){
         const data = await res.json();
-        console.log(data);
         if(res.status === 200){
             localStorage.setItem('userToken',data.token);
             location.href = '/my-board';

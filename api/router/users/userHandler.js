@@ -13,7 +13,6 @@ const handler = async (req,res) =>{
         try{
             await routes[path][method](req,res);
         }catch(e){
-            console.log(e);
             res.statusCode = e.status;
             const {message} =  e
             res.end(JSON.stringify({message})); 

@@ -37,9 +37,7 @@ const signup = (data) => {
         if(res.status === 200){
             //generateSuccessModal('your user was registered successful','./');
             const message = {message: 'your user was registered successful', type: 'successful'}
-            console.log(message);
             addInternalMessage(message);
-            console.log('error')
             location.href = '/';
             
         }else{

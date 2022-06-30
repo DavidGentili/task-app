@@ -15,7 +15,6 @@ const starWindow = async () => {
     if(user){
         renderUser(user);
         const project = await getProject(idProject);
-        console.log(project)
         if(!Array.isArray(project)){
             renderSingleProject(project)
             getProject()
