@@ -1,6 +1,6 @@
 const getInstance = () => {
     return axios.create({
-        baseURL: 'http://localhost:8080/api/',
+        baseURL: 'https://david-gentili-task-app.herokuapp.com',
         timeout: 1000,
         headers: { 
             'Content-Type' : 'application/json',
