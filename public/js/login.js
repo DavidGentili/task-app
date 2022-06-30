@@ -1,5 +1,5 @@
 import {addNewMessage,cleanMsgPanel } from "./messages.js";
-import { activeButton, hiddenButton } from "./loadEffectButton.js";
+import { activeButton, hiddenButton } from "./load-effect-button.js";
 
 const getData = () => {
     let email = document.getElementsByName('email')[0].value;

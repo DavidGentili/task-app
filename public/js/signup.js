@@ -1,5 +1,5 @@
-import {addNewMessage,cleanMsgPanel, addInternalMessage} from './messages.js';
-import { hiddenButton,activeButton } from './loadEffectButton.js';
+import {addNewMessage, cleanMsgPanel, addInternalMessage} from './messages.js';
+import { hiddenButton, activeButton } from './load-effect-button.js';
 
 const getData = () => {
     const name = document.getElementsByName('name')[0].value;
