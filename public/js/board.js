@@ -8,6 +8,7 @@ const getProjectBoard = async (projectBoard) => {
         const {data} = await getInstance().get('board?taskState=pending');
         refreshProjectBoard(data,projectBoard);
     } catch(e){
+        console.log(e);
         if(!e.response || e.response.status === 403)
             unauthorizedUser();
         else
