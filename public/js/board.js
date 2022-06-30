@@ -8,7 +8,6 @@ const getProjectBoard = async (projectBoard) => {
         const {data} = await getInstance().get('board?taskState=pending');
         refreshProjectBoard(data,projectBoard);
     } catch(e){
-        console.log(e);
         if(!e.response || e.response.status === 403)
             unauthorizedUser();
         else
@@ -20,9 +19,9 @@ const getProjectBoard = async (projectBoard) => {
 const refreshProjectBoard = (data,projectBoard) => {
     while(projectBoard.length != 0)
         projectBoard.pop();
-    data.forEach(project => {
-        projectBoard.push(project);
-    })
+    if(Array.isArray(data) && data.length > 0){
+        data.forEach(project => { projectBoard.push(project)})
+    }
 }
 
 const renderProjectBoard = (projectBoard) => {
