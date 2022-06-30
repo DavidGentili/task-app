@@ -8,7 +8,7 @@ const getProjectBoard = async (projectBoard) => {
         const {data} = await getInstance().get('board?taskState=pending');
         refreshProjectBoard(data,projectBoard);
     } catch(e){
-        if(e.response.status === 403)
+        if(!e.response || e.response.status === 403)
             unauthorizedUser();
         else
             addNewMessage('opps, we are having problems with the server, try again later','error');
