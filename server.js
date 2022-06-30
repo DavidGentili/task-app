@@ -1,5 +1,5 @@
 const http = require('http');
-const port = 8080;
+const { port } = require('./config');
 
 
 const prepareRequest = require('./prepareRequest');

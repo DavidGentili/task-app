@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
+const { mongodbURL } = require('./config');
 
-mongoose.connect('mongodb+srv://davidGentili:wdyMYHHOPYc8faTJ@cluster-task-app.5up0n.mongodb.net/Task-App?retryWrites=true&w=majority')
+mongoose.connect(mongodbURL)
 .then( () => {
     console.log('Database connected'); 
 })
 .catch( (e) => {
+    console.error(e);
     console.log('error to connect Database');
 });
