@@ -3,4 +3,5 @@ module.exports = {
     privateKey: process.env.PRIVATE_KEY || 'claveSecreta',
     port: process.env.PORT || 8080,
     host: process.env.HOST || 'http://localhost:9000',
+    
 }
